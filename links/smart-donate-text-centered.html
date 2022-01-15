@@ -1,0 +1,16 @@
+<!-- Begin Smart Securely Contribute Text Block -->
+{% if oc == true %}<p style="color:{{muted}};font-size:10pt;"><em>Note: If you've saved your payment information{% if base_url contains 'winred' %} with WinRed{% elsif base_url contains 'anedot' %} with Donor ID{% endif %}, your donation will go through immediately.</em></p>{% endif %}
+<p style="font-size: 1.1em; text-align: center;">
+  <strong><a href="{{ base_url }}?amount={{ amount_1 }}&utm_content=text-amt-1&{{ page_variables }}" target="_blank">Securely Contribute ${{ amount_1 | number_with_commas }} >>></a></strong>
+<br><br>
+  <strong><a href="{{ base_url }}?amount={{ amount_2 }}&utm_content=text-amt-2&{{ page_variables }}" target="_blank">Securely Contribute ${{ amount_2 | number_with_commas }} >>></a></strong>
+<br><br>
+  <strong><a href="{{ base_url }}?amount={{ amount_3 }}&utm_content=text-amt-3&{{ page_variables }}" target="_blank">Securely Contribute ${{ amount_3 | number_with_commas }} >>></a></strong>
+<br><br>
+  <strong><a href="{{ base_url }}?amount={{ amount_4 }}&utm_content=text-amt-4&{{ page_variables }}" target="_blank">Securely Contribute ${{ amount_4 | number_with_commas }} >>></a></strong>
+<br><br>
+  <strong><a href="{{ base_url }}?amount={{ amount_5 }}&utm_content=text-amt-5&{{ page_variables }}" target="_blank">Securely Contribute ${{ amount_5 | number_with_commas }} >>></a></strong>
+<br><br>
+  <strong><a href="{{ base_url }}?{{ amounts }}&utm_content=text-amt-other&{{ page_variables }}" target="_blank">Securely Contribute Any Amount >>></a></strong>
+</p>
+<!-- End Smart Securely Contribute Text Block -->

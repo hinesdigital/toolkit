@@ -1,0 +1,5 @@
+{% if recipient.first_name.size > 0 and recipient.address.location.size > 0 %}
+	<p style="font-family: {{ font_monospace }}; font-size:12pt; text-align:center;">
+		<strong><a href="{{ base_url }}?utm_content=text-highlighted&{{ page_variables }}" style="color: inherit; background: {{ yellow }}; text-decoration: none;">This email is intended for {{ first_name | upcase }} from {{ location }}. If you are not the intended recipient, please stop reading this email IMMEDIATELY.</a></strong>
+	</p>
+{% endif %}

@@ -1,0 +1,49 @@
+<!-- Begin Supporter Profile Block -->
+<table style="border: 2.5px solid black; border-collapse: collapse; margin: auto; width:100%; max-width: 100%; margin-bottom:1em;" cellspacing="1" cellpadding="15">
+	<tbody>
+		<tr>
+			<td style="text-align: center; background-color: {{ blue }}; color: #ffffff; border-bottom: 2.5px solid black;" colspan="2"><span style="font-size: 18px;"><span style="font-family: arial,helvetica,sans-serif; text-transform: uppercase;"><strong>{{ settings.official_name }} Profile &mdash; Date: {{ 'now' | date: "%x" }}</strong></span></span></td>
+		</tr>
+		
+		<tr>
+			<td style="background-color: #d3d3d3; border-bottom: 2.5px solid black;font-size: 18px;">
+					<div style="text-align: right;">ID:</div>
+			</td>
+			<td style="background-color: #ffffff; border-bottom: 2.5px solid black;">{{ recipient.id }}</td>
+		</tr>
+
+		<tr>
+			<td style="background-color: #d3d3d3; border-bottom: 2.5px solid black;font-size: 18px;">
+					<div style="text-align: right;">Email:</div>
+			</td>
+			<td style="background-color: #ffffff; border-bottom: 2.5px solid black;"><a href="{{ base_url }}?utm_content=text-email_address&{{ page_variables }}" style="color: inherit; text-decoration: none;">{{ recipient.email }}</a></td>
+		</tr>
+
+		<tr>
+			<td style="background-color: #d3d3d3; border-bottom: 2.5px solid black;font-size: 18px;">
+					<div style="text-align: right;">Status:</div>
+			</td>
+			<td style="background-color: #ffffff; border-bottom: 2.5px solid black;">
+				<strong>{% if recipient.has_donated? %}<span style="color: {{ green }};">DONOR</span> <span style="color:{{ muted }};">(Last Gift: {{ recipient.last_donation.succeeded_at | date: "%x" }})</span>{% elsif recipient.is_supporter? %}<span style="color: {{ green }};">SUPPORTER</span>{% else %}<span style="color: {{ red }};">UNCONFIRMED</span>{% endif %}</strong>
+			</td>
+		</tr>
+
+		<tr>
+			<td style="background-color: #d3d3d3; border-bottom: 2.5px solid black;font-size: 18px;">
+					<div style="text-align: right;">Next Step:</div>
+			</td>
+			<td style="background-color: #ffffff; border-bottom: 2.5px solid black;"><strong style="background:{{ yellow }};color:{{ red }};">Donate {{ ask }} or more today</strong></td>
+		</tr>
+
+		<tr>
+			<td style="background-color: #d3d3d3; border-bottom: 2.5px solid black;font-size: 18px;">
+					<div style="text-align: right;">Secure Link:</div>
+			</td>
+			<td style="background-color: #ffffff; border-bottom: 2.5px solid black;">
+				<strong><a href="{{ base_url }}?utm_content=supporter_profile_link&{{ page_variables }}" target="_blank">{{ base_url }}</a></strong>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<p style="color:{{ muted }}; margin-top: -5px;"><small><em>Note: This reflects only {{ settings.official_name }} records associated with the email address <a href="{{ base_url }}?utm_content=email-address&{{ page_variables }}" style="color: inherit; text-decoration: none;">{{ recipient.email }}</a>.</em></small></p>
+<!-- End Supporter Profile Block -->

@@ -1,0 +1,456 @@
+<div style="display: none;">
+  {% comment %}Are we using the default GOP email theme?{% endcomment %}
+  {% assign theme_default = false %}  
+
+  {% comment %}What is the base url for links?{% endcomment %}
+  {% capture off_url %}{% endcapture %}
+
+  {% capture pf_url %}{% endcapture %}
+
+  {% comment %}Enable one-click donate buttons?{% endcomment %}
+  {% assign oc = false %}
+
+  {% comment %}Unique slug for MotionMail Widget{% endcomment %}
+  {% capture motion_mail_slug %}{% endcapture %}
+
+  {% comment %}Progressively Lighter Button Colors?{% endcomment %}  
+  {% assign button_fade = false %}
+
+  {% comment %}Is this a merch email?{% endcomment %}
+  {% assign is_merch = false %}
+  {% assign merch_price = 5 %}
+
+  {% comment %}Total Impact Multiplier?{% endcomment %}
+  {% assign multiplier = 0 %}
+  {% assign percent = multiplier | times:100 | plus:100 | round | number_with_commas | append:'%' %}
+
+  {% comment %}Pre-Check Money Pledge?{% endcomment %}
+  {% assign money_bomb = true %}
+
+  {% comment %}Pre-Check Recurring Donations?{% endcomment %}
+  {% assign recurring = true %}
+
+  {% comment %}Enable WinRed page content personalization & form auto-fill?{% endcomment %}
+  {% assign personalize = false %}  
+
+
+  {% comment %}
+  //== Default URL Values
+  //
+  //## Standard, pre-filled URL info.
+  {% endcomment %}
+
+  {% comment %}Default Base URLs for HD Clients{% endcomment %}
+  {% if off_url.size == 0 %}
+    {% case settings.official_name %} 
+      {% when 'Elect Republicans Florida Victory Fund' %}
+        {% capture off_url %}https://secure.winred.com/florida-victory-fund/483829103707363620{% endcapture %}
+      {% when 'Elect Republicans Georgia Victory Fund' %}
+        {% capture off_url %}https://secure.winred.com/georgia-victory-fund/633058525154885707{% endcapture %}
+      {% when 'Elect Republicans Pennsylvania Victory Fund' %}
+        {% capture off_url %}https://secure.winred.com/electrepublicans/780196433930189833{% endcapture %}
+      {% when 'Elect Republicans South Carolina Victory Fund' %}
+        {% capture off_url %}https://secure.winred.com/south-carolina-victory-fund/220493039436978120{% endcapture %}
+      {% when 'Elect Republicans' %}
+        {% capture off_url %}https://secure.winred.com/electrepublicans/780196433930189833{% endcapture %}
+      {% when 'Republican Party of Iowa' %}
+        {% capture off_url %}https://secure.winred.com/republican-party-of-iowa/720905670932821889{% endcapture %}
+      {% when 'The Missouri Republican Party' %}
+        {% capture off_url %}https://secure.winred.com/missouri-republican-party/386847607398242100{% endcapture %}
+      {% when 'North Carolina Republican Party' %}
+        {% capture off_url %}https://secure.winred.com/north-carolina-republican-party/922702361665471140{% endcapture %}
+    {% endcase %}
+  {% endif %}
+
+  {% if pf_url.size == 0 %}
+    {% case settings.official_name %} 
+      {% when 'Elect Republicans Florida Victory Fund' %}
+        {% capture pf_url %}https://secure.winred.com/florida-victory-fund/498109287184065144{% endcapture %}
+      {% when 'Elect Republicans Georgia Victory Fund' %}
+        {% capture pf_url %}https://secure.winred.com/georgia-victory-fund/080019384573523262{% endcapture %}
+      {% when 'Elect Republicans Pennsylvania Victory Fund' %}
+        {% capture pf_url %}https://secure.winred.com/electrepublicans/378196543751166568{% endcapture %}
+      {% when 'Elect Republicans South Carolina Victory Fund' %}
+        {% capture pf_url %}https://secure.winred.com/south-carolina-victory-fund/327753505014390934{% endcapture %}
+      {% when 'Elect Republicans' %}
+        {% capture pf_url %}https://secure.winred.com/electrepublicans/378196543751166568{% endcapture %}
+      {% when 'Republican Party of Iowa' %}
+        {% capture pf_url %}https://secure.winred.com/republican-party-of-iowa/849781719765446374{% endcapture %}
+      {% when 'The Missouri Republican Party' %}
+        {% capture pf_url %}https://secure.winred.com/missouri-republican-party/775857900512434557{% endcapture %}
+      {% when 'North Carolina Republican Party' %}
+        {% capture pf_url %}https://secure.winred.com/north-carolina-republican-party/114227303443213962{% endcapture %}
+    {% endcase %}
+  {% endif %}
+
+
+  {% comment %}Use page slug as utm_campaign for autoresponders{% endcomment %}
+  {% if page.name.size > 0 %}
+    {% assign utm_campaign = page.slug %}
+  {% else %}
+    {% assign utm_campaign = mailing.slug %}
+  {% endif %}
+
+  
+  {% comment %}
+  //== Personalized Donation Amounts
+  //
+  //## Use NB’s donation history to personalize future appeals.
+  {% endcomment %}
+
+  {% if is_merch == true %}
+
+    {% comment %}If there’s a minimum donation (ex: a merch page), we’ll weight the donation buttons around that amount.{% endcomment %}
+    {% assign recipient_average_donation = merch_price %}
+
+  {% elsif recipient.has_donated? %}
+    
+    {% comment %}If they’ve donated to this client, use their current average donation amount.{% endcomment %}
+    {% assign recipient_average_donation = recipient.donations_amount_in_cents | divided_by:100 | divided_by:recipient.donations_count %}
+
+    {% comment %}Round Average Donation to Neat Numbers{% endcomment %}
+    {% if recipient_average_donation >= 1000 %}
+      {% assign recipient_average_donation = 1000 | divided_by:1000 | round | times:1000 %}
+    {% elsif recipient_average_donation >= 100 %}
+      {% assign recipient_average_donation = recipient_average_donation | divided_by:100 | round | times:100 %}
+    {% elsif recipient_average_donation >= 10 %}
+      {% assign recipient_average_donation = recipient_average_donation | divided_by:10 | round | times:10 %}
+    {% elsif recipient_average_donation > 5 and recipient_average_donation < 10 %}
+      {% assign recipient_average_donation = 10 %}
+    {% endif %}
+    
+    {% comment %}Set sensible constraints so that their average doesn’t yield outlandish donation asks.{% endcomment %}
+    {% if recipient_average_donation < 5 %}
+      {% assign recipient_average_donation = 5 %}
+    {% endif %}
+
+  {% else %}
+    
+    {% assign recipient_average_donation = 10 %}
+
+  {% endif %}
+
+  {% if is_merch == true %}
+
+    {% comment %}Assign Merch Donation Array Proportions{% endcomment %}
+    {% assign amount_1 = merch_price | times:1 | round %}
+    {% assign amount_2 = merch_price | times:1.15 | round %}
+    {% assign amount_3 = merch_price | times:1.5 | round %}
+    {% assign amount_4 = merch_price | times:2 | round %}
+    {% assign amount_5 = merch_price | times:3 | round %}
+    {% assign amount_6 = merch_price | times:4 | round %}
+    {% assign amount_7 = merch_price | times:5 | round %}
+    {% assign amount_8 = merch_price | times:6 | round %}
+
+  {% else %}
+
+    {% if recipient_average_donation >= 1000 %}
+
+      {% comment %}Assign Standard Donation Array Proportions{% endcomment %}
+      {% assign amount_1 = recipient_average_donation | times:1 | round %}
+      {% assign amount_2 = recipient_average_donation | times:3 | round %}
+      {% assign amount_3 = recipient_average_donation | times:4 | round %}
+      {% assign amount_4 = recipient_average_donation | times:5 | round %}
+      {% assign amount_5 = recipient_average_donation | times:6 | round %}
+      {% assign amount_6 = recipient_average_donation | times:7 | round %}
+      {% assign amount_7 = recipient_average_donation | times:9 | round %}
+      {% assign amount_8 = recipient_average_donation | times:10 | round %}
+
+    {% elsif recipient.has_donated? %}
+
+      {% comment %}Assign Standard Donation Array Proportions{% endcomment %}
+      {% assign amount_1 = recipient_average_donation | times:1 | round %}
+      {% assign amount_2 = recipient_average_donation | times:1.5 | round %}
+      {% assign amount_3 = recipient_average_donation | times:3 | round %}
+      {% assign amount_4 = recipient_average_donation | times:7 | round %}
+      {% assign amount_5 = recipient_average_donation | times:10 | round %}
+      {% assign amount_6 = recipient_average_donation | times:15 | round %}
+      {% assign amount_7 = recipient_average_donation | times:20 | round %}
+      {% assign amount_8 = recipient_average_donation | times:50 | round %}
+
+    {% else %}
+
+      {% comment %}Assign Standard Donation Array Proportions{% endcomment %}
+      {% assign amount_1 = recipient_average_donation | times:1 | round %}
+      {% assign amount_2 = recipient_average_donation | times:1.5 | round %}
+      {% assign amount_3 = recipient_average_donation | times:3 | round %}
+      {% assign amount_4 = recipient_average_donation | times:7 | round %}
+      {% assign amount_5 = recipient_average_donation | times:10 | round %}
+      {% assign amount_6 = recipient_average_donation | times:15 | round %}
+      {% assign amount_7 = recipient_average_donation | times:20 | round %}
+      {% assign amount_8 = recipient_average_donation | times:50 | round %}
+
+    {% endif %} 
+
+  {% endif %}
+
+  {% comment %}///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////{% endcomment %}
+
+  {% comment %}Establish donation button amounts.{% endcomment %}
+  {% comment %}We list amounts from Greatest to Least in the array.{% endcomment %}
+
+  {% capture amounts %}amt1={{ amount_1 }}&amt2={{ amount_2 }}&amt3={{ amount_3 }}&amt4={{ amount_4 }}&amt5={{ amount_5 }}&amt6={{ amount_6 }}&amt7={{ amount_7 }}{% endcapture %}
+
+
+  {% comment %}
+  //== Personalized Asks
+  //
+  //## Helps to to avoid NB’s <span> tag wrapping in URLs and to enable easier shorthand in copywriting.
+  {% endcomment %}
+
+  {% comment %}An ask amount to use in a sentence{% endcomment %}
+  {% assign ask = amount_1 | number_with_commas | prepend:'$' %}
+
+  {% comment %}A dynamically generated fundraising goal.{% endcomment %}
+  {% assign goal = settings.donations_amount_in_cents | divided_by:100 | divided_by:settings.donors_count | times:settings.supporters_count | times:0.001 | round | number_with_commas | prepend:'$' %}
+
+  {% assign short = goal %}
+
+  {% assign donors = settings.supporters_count | times:0.02 | round | number_with_commas %}
+
+  {% comment %}///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////{% endcomment %}
+
+
+  {% comment %}
+  //== Custom recipient variables
+  //
+  //## Helps to avoid NB’s <span> tag wrapping in URLs and to enable easier shorthand in copywriting.
+  {% endcomment %}
+
+  {% comment %}Name Variables{% endcomment %}
+  {% assign name = recipient.first_name_or_friend | replace:'Friend','Fellow Conservative' %}
+  {% assign first_name = recipient.first_name %}
+  {% assign last_name = recipient.last_name %}
+  {% assign full_name = recipient.full_name_or_friend %}
+  {% assign name_or_email = recipient.name_or_email %}
+  {% assign id = recipient.id %}
+
+  {% comment %}Employer / Occupation Variables{% endcomment %}
+  {% assign employer = recipient.employer %}
+  {% assign occupation = recipient.occupation %}
+
+  {% comment %}Address Variables{% endcomment %}
+  {% assign address1 = recipient.address.address1 %}
+  {% assign city = recipient.address.city | default:'your community' %}
+  {% assign city_and_state = recipient.address.city_and_state | default:'your community' %}
+  {% assign location = recipient.address.location | default:'your community' %}
+  {% assign state = recipient.address.state | default:'your state' | replace:"AL","Alabama" | replace:"AK","Alaska" | replace:"AZ","Arizona" | replace:"AR","Arkansas" | replace:"CA","California" | replace:"CO","Colorado" | replace:"CT","Connecticut" | replace:"DE","Delaware" | replace:"DC","District of Columbia" | replace:"FL","Florida" | replace:"GA","Georgia" | replace:"HI","Hawaii" | replace:"ID","Idaho" | replace:"IL","Illinois" | replace:"IN","Indiana" | replace:"IA","Iowa" | replace:"KS","Kansas" | replace:"KY","Kentucky" | replace:"LA","Louisiana" | replace:"ME","Maine" | replace:"MD","Maryland" | replace:"MA","Massachusetts" | replace:"MI","Michigan" | replace:"MN","Minnesota" | replace:"MS","Mississippi" | replace:"MO","Missouri" | replace:"MT","Montana" | replace:"NE","Nebraska" | replace:"NV","Nevada" | replace:"NH","New Hampshire" | replace:"NJ","New Jersey" | replace:"NM","New Mexico" | replace:"NY","New York" | replace:"NC","North Carolina" | replace:"ND","North Dakota" | replace:"OH","Ohio" | replace:"OK","Oklahoma" | replace:"OR","Oregon" | replace:"PA","Pennsylvania" | replace:"RI","Rhode Island" | replace:"SC","South Carolina" | replace:"SD","South Dakota" | replace:"TN","Tennessee" | replace:"TX","Texas" | replace:"UT","Utah" | replace:"VT","Vermont" | replace:"VA","Virginia" | replace:"WA","Washington" | replace:"WV","West Virginia" | replace:"WI","Wisconsin" | replace:"WY","Wyoming" %}
+  {% assign zip = recipient.address.zip %}
+
+  {% comment %}Contact Variables{% endcomment %}
+  {% assign email = recipient.email %}
+  {% assign mobile_number = recipient.mobile_number %}
+  {% assign phone_number = recipient.phone_number %}
+
+  {% comment %}
+  //== Color Variables
+  //
+  //## Easily load brand-specific hex codes inline from memory.
+  {% endcomment %}
+  {% assign link = '#0000EE' %}
+  {% assign black = '#000000' %}
+  {% assign blue = '#023D7B' %}
+  {% assign green = '#159965' %}
+  {% assign gray = '#A4A8B7' %}
+  {% assign light = '#E9E9E9' %}
+  {% assign muted = '#757777' %}
+  {% assign red = '#D0021A' %}
+  {% assign tan = '#FEEF8B' %}
+  {% assign teal = '#2DFFFE' %}
+  {% assign yellow = '#F8FF00' %}
+  {% assign gold = '#CC9900' %}
+
+  {% assign color_100 = 'FF' %}
+  {% assign color_90 = 'E6' %}
+  {% assign color_80 = 'CC' %}
+  {% assign color_70 = 'B3' %}
+  {% assign color_60 = '99' %}
+  {% assign color_50 = '80' %}
+  
+  {% if button_fade == true %}
+    {% assign fade_amount_1 = color_100 %}
+    {% assign fade_amount_2 = color_90 %}
+    {% assign fade_amount_3 = color_80 %}
+    {% assign fade_amount_4 = color_70 %}
+    {% assign fade_amount_5 = color_60 %}
+    {% assign fade_amount_6 = color_50 %}
+  {% endif %}
+
+  {% comment %}
+  //== Custom Client Color Variables
+  //
+  //## Automatically load brand-specific hex codes inline from memory.
+  {% endcomment %}
+  {% if theme_default == false %}
+    {% case settings.official_name %} 
+      {% when 'Elect Republicans Georgia Victory Fund' %}
+        {% assign blue = '#043BAB' %}
+        {% assign red = '#e1251b' %}
+        {% assign link = blue %}
+        {% assign primary = red %}
+        {% assign secondary = red %}
+      {% when 'Elect Republicans Florida Victory Fund' %}
+        {% assign blue = '#031d41' %}
+        {% assign red = '#c6083b' %}
+        {% assign primary = blue %}
+        {% assign secondary = red %}
+      {% when 'Elect Republicans South Carolina Victory Fund' %}
+        {% assign blue = '#0a386f' %}
+        {% assign red = '#B50938' %}
+        {% assign gray = '#b3b7c3' %}
+        {% assign green = '#1b9e0c' %}
+        {% assign primary = red %}
+        {% assign secondary = red %}
+      {% when 'Elect Republicans' %}
+        {% assign blue = '#023D7B' %}
+        {% assign red = '#D0021A' %}
+        {% assign primary = red %}
+        {% assign secondary = red %}
+      {% when 'North Carolina Republican Party' %}
+        {% assign blue = '#0A3C6B' %}
+        {% assign red = '#AF1514' %}
+        {% assign link = red %}
+        {% assign primary = blue %}
+        {% assign secondary = red %}
+      {% when 'The Missouri Republican Party' %}
+        {% assign blue = '#253553' %}
+        {% assign red = '#A51E34' %}
+        {% assign primary = blue %}
+        {% assign secondary = red %}
+      {% when 'Republican Party of Iowa' %}
+        {% assign blue = '#0D2978' %}
+        {% assign red = '#FC0D1F' %}
+        {% assign primary = blue %}
+        {% assign secondary = red %}
+        {% assign yellow = '#FFFD4D' %}
+    {% endcase %}
+  {% endif %}
+
+  {% if theme_default == true %}
+    {% assign primary = red %}
+    {% assign secondary = red %}    
+  {% endif %}
+
+
+  {% comment %}
+  //== Default Fonts
+  //
+  //## Customize fonts per client to create a more unique voice/feel.
+  {% endcomment %}
+
+  {% capture font_body %}Arial, sans-serif{% endcapture %}
+  {% capture font_buttons %}'Arial Black', 'Arial Bold', {{ font_body }}{% endcapture %}
+  {% capture font_headline %}'Arial Black',  'Arial Bold', {{ font_body }}{% endcapture %}
+  {% capture font_monospace %}Courier New, Courier, monospace{% endcapture %}
+
+  {% assign headline_font_size = '24px' %}
+  {% assign button_letter_spacing = '0' %}
+  {% assign button_font_size = '16px' %}
+  {% assign button_text_transform = 'uppercase' %}
+
+
+  {% comment %}
+  //== UTM Source Assignment
+  //
+  //## Properly assign UTM Source in order to track commission.
+  {% endcomment %}
+  {% assign is_hd_list = false %}
+
+  {% if recipient.tag_list contains 'joint' %}
+    {% assign is_hd_list = false %}
+  {% elsif recipient.tag_list contains 'hinesdigital' or recipient.tag_list contains 'hddata' %}
+    {% assign is_hd_list = true %}
+  {% endif %}
+
+  {% if is_hd_list == false %}
+    {% assign base_url = off_url %}
+  {% elsif is_hd_list %}
+    {% assign base_url = pf_url %}
+  {% else %}
+    {% assign base_url = off_url %}
+  {% endif %}
+
+
+  {% comment %}
+  //== Custom WinRed Page Variables
+  //
+  //## Allows me to dynamically render content on WinRed pages based on URL parameters.
+  {% endcomment %}
+
+  {% comment %}WinRed Page Variables{% endcomment %}
+  {% capture deadline %}11:59 PM TONIGHT{% endcapture %}
+  {% capture headline %}{% endcapture %}
+  {% capture intro %}{% endcapture %}
+  {% capture cta %}{% endcapture %}
+
+  {% capture recurring_callout %}{% endcapture %}  
+  {% capture money_pledge_callout %}{% endcapture %}
+
+  {% capture survey_q1 %}{% endcapture %}
+  {% capture survey_q1_y %}{% endcapture %}
+  {% capture survey_q1_n %}{% endcapture %}
+  {% capture survey_q1_u %}{% endcapture %}
+
+  {% capture survey_q2 %}{% endcapture %}
+  {% capture survey_q2_y %}{% endcapture %}
+  {% capture survey_q2_n %}{% endcapture %}
+  {% capture survey_q2_u %}{% endcapture %}
+
+  {% capture survey_q3 %}{% endcapture %}
+  {% capture survey_q3_y %}{% endcapture %}
+  {% capture survey_q3_n %}{% endcapture %}
+  {% capture survey_q3_u %}{% endcapture %}
+
+  {% capture action_sa %}{% endcapture %}
+  {% capture action_sa_y %}{% endcapture %}
+
+  {% capture action_ha %}{% endcapture %}
+  {% capture action_ha_1 %}{% endcapture %}
+  {% capture action_ha_2 %}{% endcapture %}
+  {% capture action_ha_3 %}{% endcapture %}
+  {% capture action_ha_4 %}{% endcapture %}
+
+
+  {% comment %}
+  //== Build The URL
+  //
+  //## Aggregated URL Variables for customized WinRed pages
+  {% endcomment %}
+  {% capture page_variables %}utm_campaign={{ mailing.slug }}&utm_source=nationbuilder&utm_medium=email&{{amounts}}{% if oc == true or personalize == true %}&email={{ email | url_encode | replace:'+','%20' }}&oc={{ oc }}&money_bomb=false&recurring=false{% else %}&money_bomb={{ money_bomb }}&recurring={{ recurring }}{% endif %}{% if personalize == true %}&firstname={{ first_name | url_encode | replace:'+','%20' }}&lastname={{ last_name | url_encode | replace:'+','%20' }}&name_or_email={{ name_or_email | url_encode | replace:'+','%20' }}&id={{ id | url_encode | replace:'+','%20' }}&address={{ address1 | url_encode | replace:'+','%20' }}&zip={{ zip | url_encode | replace:'+','%20' }}&city={{ city | url_encode | replace:'+','%20' }}&employer_name={{ employer | url_encode | replace:'+','%20' }}&occupation={{ occupation | url_encode | replace:'+','%20' }}&phone={{ phone_number | url_encode | replace:'+','%20' }}&mobile={{ mobile_number | url_encode | replace:'+','%20' }}{% endif %}{% if headline.size > 0 %}&headline={{ headline | url_encode | replace:'+','%20' }}{% endif %}{% if intro.size > 0 %}&intro={{ intro | url_encode | replace:'+','%20' }}{% endif %}{% if cta.size > 0 %}&cta={{ cta | url_encode | replace:'+','%20' }}{% endif %}{% if deadline.size > 0 %}&deadline={{ deadline | url_encode | replace:'+','%20' }}{% endif %}{%if money_pledge_callout.size > 0 %}&money_pledge_callout={{ money_pledge_callout | url_encode | replace:'+','%20' }}{% endif %}{% if recurring_callout.size > 0 %}&recurring_callout={{ recurring_callout | url_encode | replace:'+','%20' }}{% endif %}{% if survey_q1.size > 0 %}&survey_q1={{ survey_q1 | url_encode | replace:'+','%20' }}{% endif %}{% if survey_q1_y.size > 0 %}&survey_q1_y={{ survey_q1_y | url_encode | replace:'+','%20' }}{% endif %}{% if survey_q1_n.size > 0 %}&survey_q1_n={{ survey_q1_n | url_encode | replace:'+','%20' }}{% endif %}{% if survey_q1_u.size > 0 %}&survey_q1_u={{ survey_q1_u | url_encode | replace:'+','%20' }}{% endif %}{% if survey_q2.size > 0 %}&survey_q2={{ survey_q2 | url_encode | replace:'+','%20' }}{% endif %}{% if survey_q2_y.size > 0 %}&survey_q2_y={{ survey_q2_y | url_encode | replace:'+','%20' }}{% endif %}{% if survey_q2_n.size > 0 %}&survey_q2_n={{ survey_q2_n | url_encode | replace:'+','%20' }}{% endif %}{% if survey_q2_u.size > 0 %}&survey_q2_u={{ survey_q2_u | url_encode | replace:'+','%20' }}{% endif %}{% if survey_q3.size > 0 %}&survey_q3={{ survey_q3 | url_encode | replace:'+','%20' }}{% endif %}{% if survey_q3_y.size > 0 %}&survey_q3_y={{ survey_q3_y | url_encode | replace:'+','%20' }}{% endif %}{% if survey_q3_n.size > 0 %}&survey_q3_n={{ survey_q3_n | url_encode | replace:'+','%20' }}{% endif %}{% if survey_q3_u.size > 0 %}&survey_q3_u={{ survey_q3_u | url_encode | replace:'+','%20' }}{% endif %}{% if action_sa.size > 0 %}&action_sa={{ action_sa | url_encode | replace:'+','%20' }}{% endif %}{% if action_sa_y.size > 0 %}&action_sa_y={{ action_sa_y | url_encode | replace:'+','%20' }}{% endif %}{% if action_ha.size > 0 %}&action_ha={{ action_ha | url_encode | replace:'+','%20' }}{% endif %}{% if action_ha_1.size > 0 %}&action_ha_1={{ action_ha_1 | url_encode | replace:'+','%20' }}{% endif %}{% if action_ha_2.size > 0 %}&action_ha_2={{ action_ha_2 | url_encode | replace:'+','%20' }}{% endif %}{% if action_ha_3.size > 0 %}&action_ha_3={{ action_ha_3 | url_encode | replace:'+','%20' }}{% endif %}{% if action_ha_4.size > 0 %}&action_ha_4={{ action_ha_4 | url_encode | replace:'+','%20' }}{% endif %}{% endcapture %}
+
+  
+  {% comment %}##### ##### ##### ##### ##### {% endcomment %}
+</div>
+
+<p style="display: none;">&nbsp;</p>
+
+<!-- BEGIN EMAIL CONTENT HERE -->
+
+<p style="display: none;">&nbsp;</p>
+
+<p>{{name}},</p>
+
+<p>TK Grab attention / Create Urgency</p>
+
+<p>TK Provide context</p>
+
+<p>TK Soft Ask</p>
+
+<p>TK Hard Ask</p>
+
+<p>[[ Button ]]</p>
+
+<p>TK Restate Urgency</p>
+
+<p>TK Soft Ask</p>
+
+<p>TK Hard Ask</p>
+
+<p>TK Text Link</p>
+
+<p>Thank you.</p>
+
+<p>
+  <strong>Republican Action Alerts</strong><br>
+  <em>Sent via {{ settings.official_name }}</em>
+</p>

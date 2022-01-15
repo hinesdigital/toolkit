@@ -1,0 +1,150 @@
+<!-- Begin Smart Donate Buttons Box Block -->
+{% if oc == true %}<p style="color:{{ muted }};font-size:10pt;line-height:1.4;text-align: center; max-width: 650px;margin-left: auto; margin-right: auto;"><em>Note: If you've saved your payment information{% if base_url contains 'winred' %} with WinRed{% elsif base_url contains 'anedot' %} with Donor ID{% endif %}, your donation will go through immediately.</em></p>{% endif %}
+  
+  <span style="font-size:18px;"><!--[if (gte mso 9)>
+    <table width="600" align="center" style="border-spacing:0;font-family:sans-serif;color:#333333;" >
+      <tr>
+        <td style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
+        <![endif]--></span>
+        <table align="center" border="0" cellpadding="0" cellspacing="0" style="width:100%;max-width:650px;" width="100%">
+          <tbody>
+            <tr>
+              <td align="center" style="font-size:0" valign="top">
+                <div style="display:inline-block;min-width:280px;vertical-align:top;">
+                  <table align="center" border="0" cellpadding="0" cellspacing="0" style="margin:0 auto; width:300px; max-width: 300px; border-collapse: separate; border-spacing: 0;">
+                    <tbody>
+                      <tr>
+                        <td align="center">
+                          <table border="0" cellpadding="0" cellspacing="6" style="margin:0 auto; width:300px; max-width: 300px; border-collapse: separate; border-spacing: 0;">
+                            <tbody>
+                              <tr>
+                                <td align="center" style="-moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; font-family: {{ font_buttons }} !important; text-transform: {{ button_text_transform }}; color: #ffffff; font-weight: bold"><a href="{{ base_url }}?amount={{ amount_1 }}&utm_content=btn-amt-1&{{ page_variables }}" style="font-family: {{ font_buttons }} !important; text-transform: {{ button_text_transform }}; padding: 11px 11px 11px 11px; letter-spacing: {{ button_letter_spacing }}; mso-padding-alt: 6px 6px; display: block;text-decoration: none;border:0; text-align: center; font-weight: bold;font-size: {{ button_font_size }}; color: #ffffff; margin: 5px; mso-line-height-rule: exactly; line-height: 36px; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px;background:{{ secondary }}">Contribute ${{ amount_1 | number_with_commas }}{% if multiplier > 0 %} = ${{ amount_1 | times:multiplier | plus:amount_1 | round | number_with_commas  }}{% endif %}</a></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- This is the "ghost" td close/open tags for Outlook. --><!--[if mso]>
+              </td><td>
+              <![endif]--><!-- Column table: second column of this email -->
+              <div style="display:inline-block;min-width:280px;vertical-align:top;">
+                <table align="center" border="0" cellpadding="0" cellspacing="0" style="margin:0 auto; width:300px; max-width: 300px; border-collapse: separate; border-spacing: 0;">
+                  <tbody>
+                    <tr>
+                      <td align="center">
+                        <table border="0" cellpadding="0" cellspacing="6" style="margin:0 auto; width:300px; max-width: 300px; border-collapse: separate; border-spacing: 0;">
+                          <tbody>
+                            <tr>
+                              <td align="center" style="-moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; font-family: {{ font_buttons }} !important; text-transform: {{ button_text_transform }}; color: #ffffff; font-weight: bold"><a href="{{ base_url }}?amount={{ amount_2 }}&utm_content=btn-amt-2&{{ page_variables }}" style="font-family: {{ font_buttons }} !important; text-transform: {{ button_text_transform }}; padding: 11px 11px 11px 11px; letter-spacing: {{ button_letter_spacing }}; mso-padding-alt: 6px 6px; display: block;text-decoration: none;border:0; text-align: center; font-weight: bold;font-size: {{ button_font_size }}; color: #ffffff; margin: 5px; mso-line-height-rule: exactly; line-height: 36px; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px;background-color: {{ secondary }};">Contribute ${{ amount_2 | number_with_commas }}{% if multiplier > 0 %} = ${{ amount_2 | times:multiplier | plus:amount_2 | round | number_with_commas  }}{% endif %}</a></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- This is the "ghost" td close/open tags for Outlook. --><!--[if mso]>
+            </table><table>
+            <![endif]--><!-- Column table: second column of this email --></td>
+          </tr>
+        </tbody>
+      </table>
+      <table align="center" border="0" cellpadding="0" cellspacing="0" style="width:100%;max-width:650px;" width="100%">
+        <tbody>
+          <tr>
+            <td align="center" style="font-size:0" valign="top">
+              <div style="display:inline-block;min-width:280px;vertical-align:top;">
+                <table align="center" border="0" cellpadding="0" cellspacing="0" style="margin:0 auto; width:300px; max-width: 300px; border-collapse: separate; border-spacing: 0;">
+                  <tbody>
+                    <tr>
+                      <td align="center">
+                        <table border="0" cellpadding="0" cellspacing="6" style="margin:0 auto; width:300px; max-width: 300px; border-collapse: separate; border-spacing: 0;">
+                          <tbody>
+                            <tr>
+                              <td align="center" style="-moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; font-family: {{ font_buttons }} !important; text-transform: {{ button_text_transform }}; color: #ffffff; font-weight: bold"><a href="{{ base_url }}?amount={{ amount_3 }}&utm_content=btn-amt-3&{{ page_variables }}" style="font-family: {{ font_buttons }} !important; text-transform: {{ button_text_transform }}; padding: 11px 11px 11px 11px; letter-spacing: {{ button_letter_spacing }}; mso-padding-alt: 6px 6px; display: block;text-decoration: none;border:0; text-align: center; font-weight: bold;font-size: {{ button_font_size }}; color: #ffffff; margin: 5px; mso-line-height-rule: exactly; line-height: 36px; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px;background-color: {{ primary }};">Contribute ${{ amount_3 | number_with_commas }}{% if multiplier > 0 %} = ${{ amount_3 | times:multiplier | plus:amount_3 | round | number_with_commas  }}{% endif %}</a></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- This is the "ghost" td close/open tags for Outlook. --><!--[if mso]>
+            </td><td>
+            <![endif]--><!-- Column table: second column of this email -->
+            <div style="display:inline-block;min-width:280px;vertical-align:top;">
+              <table align="center" border="0" cellpadding="0" cellspacing="0" style="margin:0 auto; width:300px; max-width: 300px; border-collapse: separate; border-spacing: 0;">
+                <tbody>
+                  <tr>
+                    <td align="center">
+                      <table border="0" cellpadding="0" cellspacing="6" style="margin:0 auto; width:300px; max-width: 300px; border-collapse: separate; border-spacing: 0;">
+                        <tbody>
+                          <tr>
+                            <td align="center" style="-moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; font-family: {{ font_buttons }} !important; text-transform: {{ button_text_transform }}; color: #ffffff; font-weight: bold"><a href="{{ base_url }}?amount={{ amount_4 }}&utm_content=btn-amt-4&{{ page_variables }}" style="font-family: {{ font_buttons }} !important; text-transform: {{ button_text_transform }}; padding: 11px 11px 11px 11px; letter-spacing: {{ button_letter_spacing }}; mso-padding-alt: 6px 6px; display: block;text-decoration: none;border:0; text-align: center; font-weight: bold;font-size: {{ button_font_size }}; color: #ffffff; margin: 5px; mso-line-height-rule: exactly; line-height: 36px; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px;background-color: {{ secondary }};">Contribute ${{ amount_4 | number_with_commas }}{% if multiplier > 0 %} = ${{ amount_4 | times:multiplier | plus:amount_4 | round | number_with_commas  }}{% endif %}</a></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- This is the "ghost" td close/open tags for Outlook. --><!--[if mso]>
+          </table><table>
+          <![endif]--><!-- Column table: second column of this email --></td>
+        </tr>
+      </tbody>
+    </table>
+    <table align="center" border="0" cellpadding="0" cellspacing="0" style="width:100%;max-width:650px;" width="100%">
+      <tbody>
+        <tr>
+          <td align="center" style="font-size:0" valign="top">
+            <div style="display:inline-block;min-width:280px;vertical-align:top;">
+              <table align="center" border="0" cellpadding="0" cellspacing="0" style="margin:0 auto; width:300px; max-width: 300px; border-collapse: separate; border-spacing: 0;">
+                <tbody>
+                  <tr>
+                    <td align="center">
+                      <table border="0" cellpadding="0" cellspacing="6" style="margin:0 auto; width:300px; max-width: 300px; border-collapse: separate; border-spacing: 0;">
+                        <tbody>
+                          <tr>
+                            <td align="center" style="-moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; font-family: {{ font_buttons }} !important; text-transform: {{ button_text_transform }}; color: #ffffff; font-weight: bold"><a href="{{ base_url }}?amount={{ amount_5 }}&utm_content=btn-amt-5&{{ page_variables }}" style="font-family: {{ font_buttons }} !important; text-transform: {{ button_text_transform }}; padding: 11px 11px 11px 11px; letter-spacing: {{ button_letter_spacing }}; mso-padding-alt: 6px 6px; display: block;text-decoration: none;border:0; text-align: center; font-weight: bold;font-size: {{ button_font_size }}; color: #ffffff; margin: 5px; mso-line-height-rule: exactly; line-height: 36px; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px;background-color: {{ secondary }};">Contribute ${{ amount_5 | number_with_commas }}{% if multiplier > 0 %} = ${{ amount_5 | times:multiplier | plus:amount_5 | round | number_with_commas  }}{% endif %}</a></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- This is the "ghost" td close/open tags for Outlook. --><!--[if mso]>
+          </td><td>
+          <![endif]--><!-- Column table: second column of this email -->
+          <div style="display:inline-block;min-width:280px;vertical-align:top;">
+            <table align="center" border="0" cellpadding="0" cellspacing="0" style="margin:0 auto; width:300px; max-width: 300px; border-collapse: separate; border-spacing: 0;">
+              <tbody>
+                <tr>
+                  <td align="center">
+                    <table border="0" cellpadding="0" cellspacing="6" style="margin:0 auto; width:300px; max-width: 300px; border-collapse: separate; border-spacing: 0;">
+                      <tbody>
+                        <tr>
+                          <td align="center" style="-moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; font-family: {{ font_buttons }} !important; text-transform: {{ button_text_transform }}; color: #222222; font-weight: bold"><a href="{{ base_url }}?utm_content=btn-amt-other&{{ page_variables }}" style="font-family: {{ font_buttons }} !important; text-transform: {{ button_text_transform }}; padding: 11px 11px 11px 11px; letter-spacing: {{ button_letter_spacing }}; mso-padding-alt: 6px 6px; display: block;text-decoration: none;border:0; text-align: center; font-weight: bold;font-size: {{ button_font_size }}; color: #ffffff; margin: 5px; mso-line-height-rule: exactly; line-height: 36px; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px;background-color: {{ secondary }};">Contribute Any Amount</a></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- This is the "ghost" td close/open tags for Outlook. --><!--[if mso]>
+        </table><table></td></tr></table>
+        <![endif]--><!-- Column table: second column of this email --></td>
+      </tr>
+    </tbody>
+  </table>
+<!-- End Smart Donate Buttons Box Block -->

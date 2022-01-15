@@ -1,0 +1,41 @@
+<!-- Begin Petition Box -->
+<div style="background-color: {{ light }}; border: 1px solid #000000; margin-left: auto; margin-right: auto; text-align: center; max-width: 85%; padding: 10px; width: 85%;">
+  <div style="border: 1px solid #000000; padding: 12pt; font-family: {{ font_monospace }}; text-align: center;">
+    
+    <p style="font-size:18pt; text-decoration: underline;"><strong><a href="https://" href="{{ base_url }}?utm_content=text-petition_box-headline&{{ page_variables }}" style="color:#000000; text-align: center !important; text-decoration:underline;" title="">PLEASE CONFIRM YOUR INFORMATION BELOW</a></strong></p>
+    <p style="text-transform: uppercase;">PLEASE CONFIRM YOUR INFORMATION BELOW:</p>
+    
+    <center>
+      <a style="background-color:#ffffff;border:1px solid #000000; border-radius:6px !important; color:#000000; display: block; font-size: 18px; margin-bottom:5px; margin-left: auto; margin-right: auto; padding:16px; text-align: left; text-decoration:none; width: 80%;" href="{{ base_url }}?utm_content=text-petition_box-name&{{ page_variables }}" style="" target="_blank" title="">{{ full_name | replace:'Friend','[Name Not Found]' }}</a>
+
+      <a style="background-color:#ffffff;border:1px solid #000000; border-radius:6px !important; color:#000000; display: block; font-size: 18px; margin-bottom:5px; margin-left: auto; margin-right: auto; padding:16px; text-align: left; text-decoration:none; width: 80%;" href="{{ base_url }}?utm_content=text-petition_box-email&{{ page_variables }}" target="_blank">{{ email }}</a>
+      </a>
+      
+      <!-- Begin Button Single Block -->
+      <div style="display:block;vertical-align:top;text-align: center !important;margin-left: auto; margin-right: auto; margin-top: 1em; max-width: 95% !important;">
+        <table align="center" border="0" cellpadding="0" cellspacing="0" style="margin:0 auto;  border-collapse: separate; border-spacing: 0; text-align: center !important; width: 100%; max-width: 400px;">
+          <tbody>
+            <tr>
+              <td align="center">
+                <table border="0" cellpadding="0" cellspacing="6" style="margin:0 auto; border-collapse: separate; border-spacing: 0; width: 100%;">
+                  <tbody>
+                    <tr>
+                      <td align="center"style="-moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; font-family: {{ font_buttons }} !important; text-transform: {{ button_text_transform }}; color: #ffffff; font-weight: bold"><a href="{{ base_url }}?utm_content=btn-petition_box&{{ page_variables }}" style="font-family: {{ font_buttons }} !important; text-transform: {{ button_text_transform }}; letter-spacing: 0; padding: 11px 1em; mso-padding-alt: 6px 6px; display: block;text-decoration: none;border:0; text-align: center; font-weight: bold;font-size: {{ button_font_size }}; color: #ffffff; margin: 5px; mso-line-height-rule: exactly; line-height: 36px; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px;background-color: {{ primary }}">ADD YOUR NAME NOW >></a></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- End Button Single Block -->
+      <p style="font-family:{{ font_monospace }};">
+        <em>
+        PLEASE SIGN NOW &gt;&gt;
+        </em>
+      </p>
+    </center>
+  </div>
+</div>
+<!-- End Petition Box -->

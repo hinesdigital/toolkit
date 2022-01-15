@@ -1,0 +1,43 @@
+<!-- Begin Deadline Box -->
+<table style="max-width: 700px; width: 95%; border: 4px solid #000000; margin-left: auto; margin-right: auto;" cellspacing="0">
+	<tbody style="margin: 0; padding: 0;">
+		<tr style="height: 46px;">
+			<td style="width: 100%; border-bottom-width: 4px; border-bottom-style: solid; border-bottom-color: #000000; background-color: {{ secondary }}; color: #ffffff; font-size: 12px; line-height: 14px; text-align: center; height: 46px;">
+				<h2 style="font-family: {{ font_monospace }}; line-height: 1.4; text-transform: uppercase;">Official Donor File</h2>
+			</td>
+		</tr>
+		<tr style="border: 0; height: 138px;">
+			<td style="border: 0; width: 100%; background-color: #ffffff; text-align: center; height: 138px; padding: 0 1em 1em 1em;">
+				<h4 style="font-family: {{ font_monospace }};line-height: 1.5em;">
+					EMAIL:&nbsp;<a href="{{ base_url }}?utm_content=text-email_address&{{ page_variables }}" style="color: inherit; text-decoration: none;">{{ recipient.email }}</a><br />
+					SUPPORTER ID: #0{{ id }}<br />
+					{% if multiplier > 0 %}{{ percent }} TOTAL IMPACT: <span style="color: {{green}};">ACTIVE</span><br>{% endif %}
+					DEADLINE: <span style="background-color:{{ yellow }};">{{ deadline | default:'11:59 PM TONIGHT' }}</span><br />
+					SUGGESTED GIFT: <span style="color: {{ red }};">{{ ask }} or more</span></h4>
+				
+
+				<!-- Begin Button Single Block -->
+				<div style="display:block;min-width:300px;vertical-align:top;text-align: center !important;margin-left: auto; margin-right: auto;">
+					<table align="center" border="0" cellpadding="0" cellspacing="0" style="margin:0 auto;  border-collapse: separate; border-spacing: 0; text-align: center !important;">
+						<tbody>
+							<tr>
+								<td align="center">
+									<table border="0" cellpadding="0" cellspacing="6" style="margin:0 auto; min-width: 300px; border-collapse: separate; border-spacing: 0;">
+										<tbody>
+											<tr>
+												<td align="center"style="-moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; font-family: {{ font_buttons }} !important; text-transform: {{ button_text_transform }}; color: #ffffff; font-weight: bold"><a href="{{ base_url }}?utm_content=btn-amt-other&{{ page_variables }}" style="font-family: {{ font_buttons }} !important; text-transform: {{ button_text_transform }}; letter-spacing: {{ button_letter_spacing }}; padding: 11px 1em; mso-padding-alt: 6px 6px; display: block;text-decoration: none;border:0; text-align: center; font-weight: bold;font-size: {{ button_font_size }}; color: #ffffff; margin: 10px 0px; mso-line-height-rule: exactly; line-height: 36px; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; background-color: {{ secondary }}">Contribute Now</a></td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- End Button Single Block -->
+			</td>
+		</tr>
+	</tbody>
+</table>
+<!-- End Deadline Box -->
+<p style="display: none;">&nbsp;</p>

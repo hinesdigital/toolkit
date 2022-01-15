@@ -1,0 +1,78 @@
+<!-- Begin Trump Desk Block -->
+
+{% capture trump_desk_timestamp %}{% endcapture %}
+{% capture trump_desk_message %}{% endcapture %}
+
+{% capture trump_desk_like %}{% endcapture %}
+{% capture trump_desk_comment %}{% endcapture %}
+
+<p style="font-family: {{ font_headline }}; font-size:16pt; text-align:center;">
+  <a href="{{ trump_desk_like }}?utm_content=headline&{{ page_variables }}" style="color:inherit; text-decoration: none;"><strong><span style="color:{{ red }};">BREAKING NEWS:</span><br>FROM THE DESK OF PRESIDENT DONALD J. TRUMP</strong></a>
+</p>
+
+<div style="border:2px solid {{ light }}; padding: 0.5em 1em; margin-bottom: 1em;">
+
+  <p id="username" style="color: {{ blue }}; font-family: {{ font_headline }}; font-size: 14pt;">
+    <img src="{{ theme['trump_desk.jpg'] }}" style="border-radius: 10000px; display: inline-block; margin-right: 0.5em; width: 2em; height: 2em; object-fit: contain; margin-bottom: -0.5em;">
+    <strong style=" display: inline-block;">Donald J. Trump</strong> 
+    <small style="color: {{ muted }}; display: inline-block; padding-left: 1em;">{{ trump_desk_timestamp }}</small></p>
+
+  <p id="message" style="font-size: 14pt;">
+    “{{ trump_desk_message }}”
+  </p>
+</div>
+  
+  <span style="font-size:18px;"><!--[if (gte mso 9)>
+    <table width="600" align="center" style="border-spacing:0;font-family:sans-serif;color:#333333;" >
+      <tr>
+        <td style="padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;" >
+        <![endif]--></span>
+        <table align="center" border="0" cellpadding="0" cellspacing="0" style="width:100%;max-width:650px;" width="100%">
+          <tbody>
+            <tr>
+              <td align="center" style="font-size:0" valign="top">
+                <div style="display:inline-block;min-width:280px;vertical-align:top;">
+                  <table align="center" border="0" cellpadding="0" cellspacing="0" style="margin:0 auto; width:300px; max-width: 300px; border-collapse: separate; border-spacing: 0;">
+                    <tbody>
+                      <tr>
+                        <td align="center">
+                          <table border="0" cellpadding="0" cellspacing="6" style="margin:0 auto; width:300px; max-width: 300px; border-collapse: separate; border-spacing: 0;">
+                            <tbody>
+                              <tr>
+                                <td align="center" style="-moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; font-family: {{ font_buttons }} !important; text-transform: {{ button_text_transform }}; color: #ffffff; font-weight: bold"><a href="{{ trump_desk_like }}?{{ page_variables }}" style="font-family: {{ font_buttons }} !important; text-transform: {{ button_text_transform }}; padding: 11px 11px 11px 11px; letter-spacing: {{ button_letter_spacing }}; mso-padding-alt: 6px 6px; display: block;text-decoration: none;border:0; text-align: center; font-weight: bold;font-size: {{ button_font_size }}; color: #ffffff; margin: 5px; mso-line-height-rule: exactly; line-height: 36px; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px;background:{{ secondary }}">LIKE</a></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- This is the "ghost" td close/open tags for Outlook. --><!--[if mso]>
+              </td><td>
+              <![endif]--><!-- Column table: second column of this email -->
+              <div style="display:inline-block;min-width:280px;vertical-align:top;">
+                <table align="center" border="0" cellpadding="0" cellspacing="0" style="margin:0 auto; width:300px; max-width: 300px; border-collapse: separate; border-spacing: 0;">
+                  <tbody>
+                    <tr>
+                      <td align="center">
+                        <table border="0" cellpadding="0" cellspacing="6" style="margin:0 auto; width:300px; max-width: 300px; border-collapse: separate; border-spacing: 0;">
+                          <tbody>
+                            <tr>
+                              <td align="center" style="-moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; font-family: {{ font_buttons }} !important; text-transform: {{ button_text_transform }}; color: #ffffff; font-weight: bold"><a href="{{ trump_desk_comment }}?{{ page_variables }}" style="font-family: {{ font_buttons }} !important; text-transform: {{ button_text_transform }}; padding: 11px 11px 11px 11px; letter-spacing: {{ button_letter_spacing }}; mso-padding-alt: 6px 6px; display: block;text-decoration: none;border:0; text-align: center; font-weight: bold;font-size: {{ button_font_size }}; color: #ffffff; margin: 5px; mso-line-height-rule: exactly; line-height: 36px; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px;background-color: {{ secondary }};">Comment</a></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- This is the "ghost" td close/open tags for Outlook. --><!--[if mso]>
+            </table><table>
+            <![endif]--><!-- Column table: second column of this email --></td>
+          </tr>
+        </tbody>
+      </table>
+
+<!-- End Trump Desk Block -->
