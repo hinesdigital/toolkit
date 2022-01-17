@@ -30,6 +30,6 @@ Every link, button, and clickable image will now point to your chosen landing pa
 
 ### Step 3: Using HTML Code Blocks
 
-The code blocks in [Buttons](/buttons), [Images](/images), and [Widgets](/widgets) should be pasted into the Source Code editor on their own line (i.e., not inside of a `<p>` tag).
+The code blocks in [Buttons](/email/buttons), [Images](/email/images), and [Widgets](/email/widgets) should be pasted into the Source Code editor on their own line (i.e., not inside of a `<p>` tag).
 
-The code blocks in [Links](/links) should be included inline within paragraphs.
+The code blocks in [Links](/email/links) should be included inline within paragraphs.
