@@ -3,6 +3,8 @@
   {% assign theme_default = false %}  
 
   {% comment %}What is the base url for links?{% endcomment %}
+  {% capture base_url %}{% endcapture %}
+
   {% capture off_url %}{% endcapture %}
 
   {% capture pf_url %}{% endcapture %}
@@ -41,46 +43,50 @@
   {% endcomment %}
 
   {% comment %}Default Base URLs for HD Clients{% endcomment %}
-  {% if off_url.size == 0 %}
-    {% case settings.official_name %} 
-      {% when 'Elect Republicans Florida Victory Fund' %}
-        {% capture off_url %}https://secure.winred.com/florida-victory-fund/483829103707363620{% endcapture %}
-      {% when 'Elect Republicans Georgia Victory Fund' %}
-        {% capture off_url %}https://secure.winred.com/georgia-victory-fund/633058525154885707{% endcapture %}
-      {% when 'Elect Republicans Pennsylvania Victory Fund' %}
-        {% capture off_url %}https://secure.winred.com/electrepublicans/780196433930189833{% endcapture %}
-      {% when 'Elect Republicans South Carolina Victory Fund' %}
-        {% capture off_url %}https://secure.winred.com/south-carolina-victory-fund/220493039436978120{% endcapture %}
-      {% when 'Elect Republicans' %}
-        {% capture off_url %}https://secure.winred.com/electrepublicans/780196433930189833{% endcapture %}
-      {% when 'Republican Party of Iowa' %}
-        {% capture off_url %}https://secure.winred.com/republican-party-of-iowa/720905670932821889{% endcapture %}
-      {% when 'The Missouri Republican Party' %}
-        {% capture off_url %}https://secure.winred.com/missouri-republican-party/386847607398242100{% endcapture %}
-      {% when 'North Carolina Republican Party' %}
-        {% capture off_url %}https://secure.winred.com/north-carolina-republican-party/922702361665471140{% endcapture %}
-    {% endcase %}
+  {% if base_url.size == 0 %}
+    {% if off_url.size == 0 %}
+      {% case settings.official_name %} 
+        {% when 'Elect Republicans Florida Victory Fund' %}
+          {% capture off_url %}https://secure.winred.com/florida-victory-fund/483829103707363620{% endcapture %}
+        {% when 'Elect Republicans Georgia Victory Fund' %}
+          {% capture off_url %}https://secure.winred.com/georgia-victory-fund/633058525154885707{% endcapture %}
+        {% when 'Elect Republicans Pennsylvania Victory Fund' %}
+          {% capture off_url %}https://secure.winred.com/electrepublicans/780196433930189833{% endcapture %}
+        {% when 'Elect Republicans South Carolina Victory Fund' %}
+          {% capture off_url %}https://secure.winred.com/south-carolina-victory-fund/220493039436978120{% endcapture %}
+        {% when 'Elect Republicans' %}
+          {% capture off_url %}https://secure.winred.com/electrepublicans/780196433930189833{% endcapture %}
+        {% when 'Republican Party of Iowa' %}
+          {% capture off_url %}https://secure.winred.com/republican-party-of-iowa/720905670932821889{% endcapture %}
+        {% when 'The Missouri Republican Party' %}
+          {% capture off_url %}https://secure.winred.com/missouri-republican-party/386847607398242100{% endcapture %}
+        {% when 'North Carolina Republican Party' %}
+          {% capture off_url %}https://secure.winred.com/north-carolina-republican-party/922702361665471140{% endcapture %}
+      {% endcase %}
+    {% endif %}
   {% endif %}
 
-  {% if pf_url.size == 0 %}
-    {% case settings.official_name %} 
-      {% when 'Elect Republicans Florida Victory Fund' %}
-        {% capture pf_url %}https://secure.winred.com/florida-victory-fund/498109287184065144{% endcapture %}
-      {% when 'Elect Republicans Georgia Victory Fund' %}
-        {% capture pf_url %}https://secure.winred.com/georgia-victory-fund/080019384573523262{% endcapture %}
-      {% when 'Elect Republicans Pennsylvania Victory Fund' %}
-        {% capture pf_url %}https://secure.winred.com/electrepublicans/378196543751166568{% endcapture %}
-      {% when 'Elect Republicans South Carolina Victory Fund' %}
-        {% capture pf_url %}https://secure.winred.com/south-carolina-victory-fund/327753505014390934{% endcapture %}
-      {% when 'Elect Republicans' %}
-        {% capture pf_url %}https://secure.winred.com/electrepublicans/378196543751166568{% endcapture %}
-      {% when 'Republican Party of Iowa' %}
-        {% capture pf_url %}https://secure.winred.com/republican-party-of-iowa/849781719765446374{% endcapture %}
-      {% when 'The Missouri Republican Party' %}
-        {% capture pf_url %}https://secure.winred.com/missouri-republican-party/775857900512434557{% endcapture %}
-      {% when 'North Carolina Republican Party' %}
-        {% capture pf_url %}https://secure.winred.com/north-carolina-republican-party/114227303443213962{% endcapture %}
-    {% endcase %}
+  {% if base_url.size == 0 %}
+    {% if pf_url.size == 0 %}
+      {% case settings.official_name %} 
+        {% when 'Elect Republicans Florida Victory Fund' %}
+          {% capture pf_url %}https://secure.winred.com/florida-victory-fund/498109287184065144{% endcapture %}
+        {% when 'Elect Republicans Georgia Victory Fund' %}
+          {% capture pf_url %}https://secure.winred.com/georgia-victory-fund/080019384573523262{% endcapture %}
+        {% when 'Elect Republicans Pennsylvania Victory Fund' %}
+          {% capture pf_url %}https://secure.winred.com/electrepublicans/378196543751166568{% endcapture %}
+        {% when 'Elect Republicans South Carolina Victory Fund' %}
+          {% capture pf_url %}https://secure.winred.com/south-carolina-victory-fund/327753505014390934{% endcapture %}
+        {% when 'Elect Republicans' %}
+          {% capture pf_url %}https://secure.winred.com/electrepublicans/378196543751166568{% endcapture %}
+        {% when 'Republican Party of Iowa' %}
+          {% capture pf_url %}https://secure.winred.com/republican-party-of-iowa/849781719765446374{% endcapture %}
+        {% when 'The Missouri Republican Party' %}
+          {% capture pf_url %}https://secure.winred.com/missouri-republican-party/775857900512434557{% endcapture %}
+        {% when 'North Carolina Republican Party' %}
+          {% capture pf_url %}https://secure.winred.com/north-carolina-republican-party/114227303443213962{% endcapture %}
+      {% endcase %}
+    {% endif %}
   {% endif %}
 
 
@@ -362,12 +368,14 @@
     {% assign is_hd_list = true %}
   {% endif %}
 
-  {% if is_hd_list == false %}
-    {% assign base_url = off_url %}
-  {% elsif is_hd_list %}
-    {% assign base_url = pf_url %}
-  {% else %}
-    {% assign base_url = off_url %}
+  {% if base_url.size == 0 %}
+    {% if is_hd_list == false %}
+      {% assign base_url = off_url %}
+    {% elsif is_hd_list %}
+      {% assign base_url = pf_url %}
+    {% else %}
+      {% assign base_url = off_url %}
+    {% endif %}
   {% endif %}
 
 
