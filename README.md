@@ -1,4 +1,4 @@
-# Hines Digital Email & SMS Fundraising Toolkit
+# Email & SMS Fundraising Toolkit
 
 This project includes a broad array of email and SMS fundraising templates for use with NationBuilder’s email platform and WinRed pages.
 
