@@ -266,6 +266,9 @@
   {% assign yellow = '#F8FF00' %}
   {% assign gold = '#CC9900' %}
 
+  {% assign primary = red %}
+  {% assign secondary = red %}    
+
   {% assign color_100 = 'FF' %}
   {% assign color_90 = 'E6' %}
   {% assign color_80 = 'CC' %}
@@ -292,7 +295,6 @@
       {% when 'Elect Republicans Georgia Victory Fund' %}
         {% assign blue = '#043BAB' %}
         {% assign red = '#e1251b' %}
-        {% assign link = blue %}
         {% assign primary = red %}
         {% assign secondary = red %}
       {% when 'Elect Republicans Florida Victory Fund' %}
@@ -307,34 +309,29 @@
         {% assign green = '#1b9e0c' %}
         {% assign primary = red %}
         {% assign secondary = red %}
-      {% when 'Elect Republicans' %}
-        {% assign blue = '#023D7B' %}
-        {% assign red = '#D0021A' %}
-        {% assign primary = red %}
-        {% assign secondary = red %}
-      {% when 'North Carolina Republican Party' %}
-        {% assign blue = '#0A3C6B' %}
-        {% assign red = '#AF1514' %}
-        {% assign link = red %}
-        {% assign primary = blue %}
-        {% assign secondary = red %}
-      {% when 'The Missouri Republican Party' %}
-        {% assign blue = '#253553' %}
-        {% assign red = '#A51E34' %}
-        {% assign primary = blue %}
-        {% assign secondary = red %}
-      {% when 'Republican Party of Iowa' %}
-        {% assign blue = '#0D2978' %}
-        {% assign red = '#FC0D1F' %}
-        {% assign primary = blue %}
-        {% assign secondary = red %}
-        {% assign yellow = '#FFFD4D' %}
+      {% comment %}
+        {% when 'Elect Republicans' %}
+          {% assign blue = '#023D7B' %}
+          {% assign red = '#D0021A' %}
+          {% assign primary = red %}
+          {% assign secondary = red %}
+        {% when 'North Carolina Republican Party' %}
+          {% assign blue = '#023D7B' %}
+          {% assign red = '#D0021A' %}
+          {% assign primary = red %}
+          {% assign secondary = red %}
+        {% when 'The Missouri Republican Party' %}
+          {% assign blue = '#023D7B' %}
+          {% assign red = '#D0021A' %}
+          {% assign primary = red %}
+          {% assign secondary = red %}
+        {% when 'Republican Party of Iowa' %}
+          {% assign blue = '#023D7B' %}
+          {% assign red = '#D0021A' %}
+          {% assign primary = red %}
+          {% assign secondary = red %}
+      {% endcomment %}
     {% endcase %}
-  {% endif %}
-
-  {% if theme_default == true %}
-    {% assign primary = red %}
-    {% assign secondary = red %}    
   {% endif %}
 
 
