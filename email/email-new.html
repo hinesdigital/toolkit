@@ -126,13 +126,13 @@
     {% endif %}
     
     {% comment %}Set sensible constraints so that their average doesn’t yield outlandish donation asks.{% endcomment %}
-    {% if recipient_average_donation < 5 %}
-      {% assign recipient_average_donation = 5 %}
+    {% if recipient_average_donation < 1 %}
+      {% assign recipient_average_donation = 1 %}
     {% endif %}
 
   {% else %}
     
-    {% assign recipient_average_donation = 10 %}
+    {% assign recipient_average_donation = 1 %}
 
   {% endif %}
 
