@@ -344,7 +344,7 @@
 
   {% capture font_body %}Arial, sans-serif{% endcapture %}
   {% capture font_buttons %}'Arial Black', 'Arial Bold', {{ font_body }}{% endcapture %}
-  {% capture font_headline %}'Arial Black',  'Arial Bold', {{ font_body }}{% endcapture %}
+  {% capture font_headline %}{{ font_body }}{% endcapture %}
   {% capture font_monospace %}Courier New, Courier, monospace{% endcapture %}
 
   {% assign headline_font_size = '24px' %}
