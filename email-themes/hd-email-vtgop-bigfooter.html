@@ -1,0 +1,262 @@
+{% capture base_url %}hhttps://secure.winred.com/vermontgop/913132710744417092{% endcapture %}
+
+{% comment %}Default FEC Disclaimer{% endcomment %}
+{% if broadcaster.name contains 'Authorized By:' %}
+  {% capture authorized_by %}Authorized by {{ broadcaster.name | split:'Authorized By: ' | last }}. {% endcapture %}
+{% else %}
+  {% capture authorized_by %}Not authorized by any candidate or candidate’s committee.{% endcapture %}
+{% endif %}
+{% capture box_disclaimer %}
+  Paid for by {{ settings.official_name }} (<a href="https://www.vtgop.org" style="color:#000000;">vtgop.org</a>) <span style="display: inline-block;">{{ authorized_by }}</span>
+{% endcapture %}
+
+{% comment %}Text Disclaimer{% endcomment %}  
+{% capture text_disclaimer %}{% endcapture %} 
+
+{% comment %}Default Colors{% endcomment %}
+{% assign link = '#0000EE' %}
+{% assign black = '#000000' %}
+{% assign blue = '#023D7B' %}
+{% assign green = '#00CC00' %}
+{% assign gray = '#A4A8B7' %}
+{% assign light = '#E9E9E9' %}
+{% assign muted = '#757777' %}
+{% assign red = '#D0021A' %}
+{% assign tan = '#FEEF8B' %}
+{% assign teal = '#2DFFFE' %}
+{% assign yellow = '#F8FF00' %}
+{% assign gold = '#CC9900' %}
+
+{% comment %}Brand Font Values{% endcomment %}
+{% capture font_face %}@import url("https://use.typekit.net/icd1fvz.css");{% endcapture %}
+{% capture font_body %}proxima-nova, 'Roboto', -apple-system, BlinkMacSystemFont, Tahoma, sans‑serif{% endcapture %}
+{% capture font_buttons %}futura-pt-bold, 'Trebuchet MS', Century Gothic, Corbel, sans‑serif{% endcapture %}
+{% capture font_headline %}{{ font_buttons }}{% endcapture %}
+
+{% comment %}Brand Button Values{% endcomment %}
+{% assign button_letter_spacing = '1px' %}
+{% assign button_font_size = '21px' %}
+{% assign button_text_transform = 'uppercase' %}
+
+{% comment %}Brand Colors{% endcomment %}
+{% assign blue = '#1A1F53' %}
+{% assign red = '#C22636' %}
+{% assign primary = red %}
+{% assign secondary = blue %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="initial-scale=1.0">
+  <!-- So that mobile webkit will display zoomed in -->
+  <meta name="format-detection" content="telephone=no">
+  <!-- disable auto telephone linking in iOS -->
+  <title>{{ settings.official_name }}</title>
+  <style type="text/css">
+    {{ font_face }}
+    
+    /* Resets:see reset.css for details */
+    body{background-color:#ffffff;-webkit-text-size-adjust:none; -ms-text-size-adjust:none;}
+    body{color:#000000;font-family:{{ font_body }} !important;margin:0;padding:0;}
+    table{border-spacing:0;border-collapse:collapse;border-spacing:0;}
+    table td{border-collapse:collapse;}
+    p{margin-bottom:1em;}
+    img{max-width:100%;}
+    a{color:#0000EE;}
+    .repermission-link a { color:inherit !important; display: inline-block; text-decoration: underline; }
+    .nb-tmce-btn {font-family:{{ font_body }} !important;max-width:95%;}
+    /* Constrain email width for small screens */
+    @media screen and (max-width:830px) {
+    table[class="container"] { width:100%!important; }
+    }
+    /* Give content more room on mobile */
+    @media screen and (max-width:480px) {
+    table[class="container"] { width:100%!important; }
+    div[class="body-content"]img { width:100%; }
+    td[class="body-content"] { font-size: 16px !important; }
+    td[class="footer-content"] { font-size: 16px !important; }
+    }
+    /* Styles for forcing columns to rows */
+    @media only screen and (max-width:830px) {
+    /* force container columns to (horizontal) blocks */
+    table[class="container"] { width:100%!important; }
+    }
+
+    {% assign max_width = '700px' %}
+  </style>
+</head>
+<body style="margin:0; padding:0;" bgcolor="#ffffff" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" bottommargin="0">
+  {{ preview_text }}
+  <!-- 100% wrapper -->
+  <table border="0" width="100%" height="100%" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
+    <tr>
+      <td align="center" valign="top" bgcolor="#ffffff" style="background-color:#ffffff;">
+        <!-- ### 100% CONTAINER ### -->
+        <table width="100%" cellpadding="0" cellspacing="0" bgcolor="#ffffff" style="background-color:#ffffff; max-width: 100%;" class="container">
+          
+          <!-- Intro/Preferences Text -->
+          {% unless recipient.tag_list contains 'opener' or recipient.tag_list contains ':active' %}
+          <tr style="display: none;">
+            <td style="font-family:{{ font_body }} !important;font-size:14px; text-align: center; color: #757777; padding: 15px; padding-bottom: 0; background-color: transparent;" class="body-content">
+              <center>
+                <div style="max-width: {{ max_width }}; margin-left: auto; margin-right: auto;">
+                  Not interested{% comment %}{% if recipient.first_name.size > 0 %}, {{ recipient.first_name_or_friend }}{% endif %}{% endcomment %}? <a href="{{ settings.site.unsubscribe_url }}" style="color: inherit !important; display: inline-block;">Unsubscribe here</a>.
+                </div>
+              </center>
+            </td>
+          </tr>
+          {% endunless %}
+          <!-- End Intro/Preferences Text -->
+          <!-- Donor Recognition Box -->
+          {% if recipient.is_donor? %}
+            {% assign year = 'now' | date: '%Y' %}
+            {% assign day_of_year = 'now' | date: '%j' %}
+            {% assign year_of_last_donation = recipient.last_donation.succeeded_at | date: '%Y' %}
+            {% assign day_of_last_donation = recipient.last_donation.succeeded_at | date: '%j' %}
+            {% assign days_since_last_donation = day_of_year | minus:day_of_last_donation %}
+            
+            {% if days_since_last_donation <= 7 and year == year_of_last_donation %}
+              <tr>
+                <td style="font-family:{{ font_body }} !important;font-size:21px; padding-left:15px;padding-right:15px;padding-top:30px;padding-bottom:0px;text-align:left;" class="body-content">
+                  <center>
+                    <div style="max-width: {{ max_width }}; margin-left: auto; margin-right: auto;">
+                      <div style="background:#EDEDED; border:0px; padding: 1em; font-size: 12pt; font-family: Courier, monospace; text-align: center;">
+                        <p style="font-size:16pt;"><strong>THANK YOU FOR YOUR DONATION, {{ recipient.first_name_or_friend | upcase }}</strong></p>
+                        <p>
+                          We want you to know that we noticed your generous contribution on {{recipient.last_donation.succeeded_at | date: '%B %d, %Y' }}. Thank you so much for your continued support.
+                        </p>
+                      </div>
+                    </div>
+                  </center>
+                </td>
+              </tr>
+            {% endif %}
+          {% endif %}
+          <!-- End Donor Recognition Box -->
+          <!-- Email Body -->
+          <tr>
+            <td style="font-family:{{ font_body }} !important;font-size:21px; padding-left:15px;padding-right:15px;padding-top:15px;padding-bottom:15px;text-align:left;" class="body-content">
+              <center>
+                <div style="max-width: {{ max_width }}; margin-left: auto; margin-right: auto; text-align: left !important;">
+                  {{ body }}
+                  <br><br>
+                </div>
+              </center>
+            </td>
+          </tr>
+          <!-- End Email Body -->
+          
+          <!-- Unsubscribe Callout -->
+          <tr>
+            <td style="font-family: {{ font_body }} !important; padding-top: 100px; padding-bottom: 0px; padding-left:15px;padding-right:15px;font-size: 14px; text-align:center;">
+              <center>
+                <div style="max-width: {{ max_width }}; margin-left: auto; margin-right: auto;">
+                  <p style="color:#000000;line-height:1.4;font-family: {{ font_body }} !important;text-align:center;">
+                    This email was sent to
+                    <a style="color:#000000;" href="mailto:{{ recipient.email }}">{{ recipient.email }}</a>.
+                    <br>
+                    To unsubscribe from future emails, <a style="color:#000000;display: inline-block;" href="{{ settings.site.unsubscribe_url }}">click here</a>.
+                  </p>
+                </div>
+              </center>
+            </td>
+          </tr>
+          <!-- End Unsubscribe Callout -->
+          <!-- FEC Disclaimer -->
+          <tr>
+            <td style="font-family: {{ font_body }} !important; padding-top: 0px; padding-bottom: 15px; padding-left:15px;padding-right:15px;font-size: 21px; text-align:center;" class="footer-content">
+
+              <hr style="border-color: {{ light }};border-width: 1px; border-style: solid;">
+
+              <center>
+                <div style="max-width: {{ max_width }}; margin-left: auto; margin-right: auto;">
+
+                  <div style="margin:30px 0; text-align: center;">
+                    <a href="{{ base_url }}?utm_content=logo&{{ page_variables }}" target="_blank">
+                      <img style="max-width: 80% !important; max-height: 80px !important;" src="{{ theme['logo.png'] }}" alt="{{ settings.official_name }}" />
+                    </a>
+                  </div>
+
+                  <p><a href="{{ base_url }}?utm_content=text-bold&{{ page_variables }}" style="color: inherit; font-weight: bold; text-decoration: none;">Hello{% if recipient.first_name.size > 0 %}, {{ recipient.first_name_or_friend}}{% endif %}! And congratulations! You’re one of the TOP REPUBLICANS in {{recipient.address.state | default:'your state' | replace:"AL","Alabama" | replace:"AK","Alaska" | replace:"AZ","Arizona" | replace:"AR","Arkansas" | replace:"CA","California" | replace:"CO","Colorado" | replace:"CT","Connecticut" | replace:"DE","Delaware" | replace:"DC","District of Columbia" | replace:"FL","Florida" | replace:"GA","Georgia" | replace:"HI","Hawaii" | replace:"ID","Idaho" | replace:"IL","Illinois" | replace:"IN","Indiana" | replace:"IA","Iowa" | replace:"KS","Kansas" | replace:"KY","Kentucky" | replace:"LA","Louisiana" | replace:"ME","Maine" | replace:"MD","Maryland" | replace:"MA","Massachusetts" | replace:"MI","Michigan" | replace:"MN","Minnesota" | replace:"MS","Mississippi" | replace:"MO","Missouri" | replace:"MT","Montana" | replace:"NE","Nebraska" | replace:"NV","Nevada" | replace:"NH","New Hampshire" | replace:"NJ","New Jersey" | replace:"NM","New Mexico" | replace:"NY","New York" | replace:"NC","North Carolina" | replace:"ND","North Dakota" | replace:"OH","Ohio" | replace:"OK","Oklahoma" | replace:"OR","Oregon" | replace:"PA","Pennsylvania" | replace:"RI","Rhode Island" | replace:"SC","South Carolina" | replace:"SD","South Dakota" | replace:"TN","Tennessee" | replace:"TX","Texas" | replace:"UT","Utah" | replace:"VT","Vermont" | replace:"VA","Virginia" | replace:"WA","Washington" | replace:"WV","West Virginia" | replace:"WI","Wisconsin" | replace:"WY","Wyoming" }}. We’re excited to have you the team as we fight to win back the House &amp; Senate Majorities in the Midterm Elections.</a></p>
+
+                  <p>
+                    <a href="{{ base_url }}?utm_content=text-bold&{{ page_variables }}" style="color: {{red}}; font-weight: bold; text-decoration: none;">
+                      Vermont is the <strong>ONLY STATE</strong> in America where an incumbent Democrat senator is retiring. That makes it a huge opportunity for us to pick up a seat in socialist Bernie Sanders’ home state! But we can’t do it without your support{% if recipient.first_name.size > 0 %}, {{ recipient.first_name_or_friend}}{% endif %}… Will you help us?</u>
+                    </a>
+                  </p>
+
+                  <!-- Begin Button Single Block -->
+                  <div style="display:block;min-width:300px;vertical-align:top;text-align: center !important;margin-left: auto; margin-right: auto;">
+                    <table align="center" border="0" cellpadding="0" cellspacing="0" style="margin:0 auto;  border-collapse: separate; border-spacing: 0; text-align: center !important;">
+                      <tbody>
+                        <tr>
+                          <td align="center">
+                            <table border="0" cellpadding="0" cellspacing="6" style="margin:0 auto; min-width: 300px; border-collapse: separate; border-spacing: 0;">
+                              <tbody>
+                                <tr>
+                                  <td align="center"style="-moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; font-family: {{ font_buttons }} !important; text-transform: {{ button_text_transform }}; color: #ffffff; font-weight: bold"><a href="{{ base_url }}?utm_content=btn-amt-other&{{ page_variables }}" style="font-family: {{ font_buttons }} !important; text-transform: {{ button_text_transform }}; letter-spacing: {{ button_letter_spacing }}; padding: 11px 1em; mso-padding-alt: 6px 6px; display: block;text-decoration: none;border:0; text-align: center; font-weight: bold;font-size: {{ button_font_size }}; color: #ffffff; margin: 10px 0px; mso-line-height-rule: exactly; line-height: 36px; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; background-color: {{ secondary }}">Contribute Now</a></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- End Button Single Block -->
+
+                  <p>
+                    We know you’re getting a lot of emails{% if recipient.first_name.size > 0 %}, {{ recipient.first_name_or_friend}}{% endif %}. That’s because we’re counting on your support!
+                  </p>
+                  <p>
+                    <strong><a href="{{ base_url }}?utm_content=text-highlighted&{{ page_variables }}" style="color: inherit; background: {{ yellow }}; text-decoration: none;">If we pick up just ONE MORE SEAT we’ll win back the Senate Majority -- and with a retiring incumbent, Vermont is a Top Target!</a></strong>
+                  </p>
+
+                  {% if text_disclaimer.size > 0 %}
+                    {{ text_disclaimer }}
+                  {% endif %}
+
+                  <p>
+                    To contribute by mail, please send a check made payable to “{{ settings.official_name }}” to: 
+                    <address>
+                      {{ settings.official_name }}<br>
+                      ℅ Finance Team<br>
+                      {% for line in settings.address.multi_line %}{{ line }}{% unless forloop.last %}<br/>{% endunless %}{% endfor %}
+                    </address>
+                  </p>
+                  
+                  <!-- <p>{{ settings.official_name }}, {{ settings.address.one_line }}</p> -->
+                  <p>Contributions to {{settings.official_name}} are not deductible for federal income tax purposes.</p>
+
+                  <center>
+                  <div style="border:1px solid #000000 !important;padding:10px;display:inline-block; margin-top: 10px; margin-bottom: 10px;">
+                    <p style="color:#000000;font-size:16px; font-size:12pt !important;line-height:1.4;text-align:center !important;display:inline-block;font-family:{{ font_body }} !important;padding:0 !important;margin: 0 !important;">
+                      {{ box_disclaimer }}
+                    </p>
+                  </div>
+                  </center>
+                </div>
+              </center>
+            </td>
+          </tr>
+          <!-- End FEC Disclaimer -->
+          
+        </table>
+      </td>
+    </tr>
+  </table>
+  <!--/100% wrapper-->
+
+  <img 
+    src="https://www.facebook.com/tr?id=272961047759644
+      &ev=ViewContent
+      &cd[utm_campaign]={{mailing.slug}}
+      &cd[utm_medium]=email
+      &cd[utm_source]=nationbuilder
+      &cd[broadcaster_domain]={{broadcaster.email | split:'@' | last }}" 
+    height="1" width="1" style="display:none"
+  />
+</body>
+</html>

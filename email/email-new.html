@@ -1,6 +1,6 @@
 <div style="display: none;">
   {% comment %}Are we using the default GOP email theme?{% endcomment %}
-  {% assign theme_default = false %}  
+  {% assign theme_default = true %}  
 
   {% comment %}What is the base url for links?{% endcomment %}
   {% capture base_url %}{% endcapture %}
@@ -9,22 +9,24 @@
 
   {% capture pf_url %}{% endcapture %}
 
-  {% comment %}Enable one-click donate buttons?{% endcomment %}
-  {% assign oc = false %}
-
-  {% comment %}Unique slug for MotionMail Widget{% endcomment %}
-  {% capture motion_mail_slug %}{% endcapture %}
-
-  {% comment %}Progressively Lighter Button Colors?{% endcomment %}  
-  {% assign button_fade = false %}
-
   {% comment %}Is this a merch email?{% endcomment %}
   {% assign is_merch = false %}
   {% assign merch_price = 5 %}
 
-  {% comment %}Total Impact Multiplier?{% endcomment %}
-  {% assign multiplier = 0 %}
-  {% assign percent = multiplier | times:100 | plus:100 | round | number_with_commas | append:'%' %}
+  {% comment %}Unique slug for MotionMail Widget{% endcomment %}
+  {% capture motion_mail_slug %}{% endcapture %}
+
+  {% comment %}Enable one-click donate buttons?{% endcomment %}
+  {% assign oc = false %}
+
+  {% comment %}Progressively Lighter Button Colors?{% endcomment %}  
+  {% assign button_fade = false %}
+
+  {% comment %}Show the client logo?{% endcomment %}
+  {% assign show_logo = true %}  
+
+  {% comment %}Show the client explainer?{% endcomment %}
+  {% assign show_explainer = true %}  
 
   {% comment %}Pre-Check Money Pledge?{% endcomment %}
   {% assign money_bomb = true %}
@@ -33,7 +35,11 @@
   {% assign recurring = true %}
 
   {% comment %}Enable WinRed page content personalization & form auto-fill?{% endcomment %}
-  {% assign personalize = false %}  
+  {% assign personalize = false %}
+
+  {% comment %}Total Impact Multiplier?{% endcomment %}
+  {% assign multiplier = 0 %}
+  {% assign percent = multiplier | times:100 | plus:100 | round | number_with_commas | append:'%' %}  
 
 
   {% comment %}
@@ -55,13 +61,15 @@
         {% when 'Elect Republicans South Carolina Victory Fund' %}
           {% capture off_url %}https://secure.winred.com/south-carolina-victory-fund/220493039436978120{% endcapture %}
         {% when 'Elect Republicans' %}
-          {% capture off_url %}https://secure.winred.com/electrepublicans/780196433930189833{% endcapture %}
+          {% capture off_url %}https://secure.winred.com/electrepublicans/257944439083345112{% endcapture %}
         {% when 'Republican Party of Iowa' %}
           {% capture off_url %}https://secure.winred.com/republican-party-of-iowa/720905670932821889{% endcapture %}
         {% when 'The Missouri Republican Party' %}
           {% capture off_url %}https://secure.winred.com/missouri-republican-party/386847607398242100{% endcapture %}
         {% when 'North Carolina Republican Party' %}
           {% capture off_url %}https://secure.winred.com/north-carolina-republican-party/922702361665471140{% endcapture %}
+        {% when 'Vermont Republican Party' %}
+          {% capture off_url %}https://secure.winred.com/vermontgop/913132710744417092{% endcapture %}
       {% endcase %}
     {% endif %}
   {% endif %}
@@ -78,13 +86,15 @@
         {% when 'Elect Republicans South Carolina Victory Fund' %}
           {% capture pf_url %}https://secure.winred.com/south-carolina-victory-fund/327753505014390934{% endcapture %}
         {% when 'Elect Republicans' %}
-          {% capture pf_url %}https://secure.winred.com/electrepublicans/378196543751166568{% endcapture %}
+          {% capture pf_url %}https://secure.winred.com/electrepublicans/484791727933420275{% endcapture %}
         {% when 'Republican Party of Iowa' %}
           {% capture pf_url %}https://secure.winred.com/republican-party-of-iowa/849781719765446374{% endcapture %}
         {% when 'The Missouri Republican Party' %}
           {% capture pf_url %}https://secure.winred.com/missouri-republican-party/775857900512434557{% endcapture %}
         {% when 'North Carolina Republican Party' %}
           {% capture pf_url %}https://secure.winred.com/north-carolina-republican-party/114227303443213962{% endcapture %}
+        {% when 'Vermont Republican Party' %}
+          {% capture pf_url %}https://secure.winred.com/vermontgop/006253513861965527{% endcapture %}
       {% endcase %}
     {% endif %}
   {% endif %}
@@ -126,13 +136,13 @@
     {% endif %}
     
     {% comment %}Set sensible constraints so that their average doesn’t yield outlandish donation asks.{% endcomment %}
-    {% if recipient_average_donation < 1 %}
-      {% assign recipient_average_donation = 1 %}
+    {% if recipient_average_donation < 5 %}
+      {% assign recipient_average_donation = 5 %}
     {% endif %}
 
   {% else %}
     
-    {% assign recipient_average_donation = 1 %}
+    {% assign recipient_average_donation = 5 %}
 
   {% endif %}
 
@@ -198,6 +208,46 @@
   {% capture amounts %}amt1={{ amount_1 }}&amt2={{ amount_2 }}&amt3={{ amount_3 }}&amt4={{ amount_4 }}&amt5={{ amount_5 }}&amt6={{ amount_6 }}&amt7={{ amount_7 }}{% endcapture %}
 
 
+
+  {% comment %}
+  //== Dynamic Page Assignment
+  //
+  //## Properly assign page URL in order to collect appropriate commission.
+  {% endcomment %}
+  {% assign is_hd_list = false %}
+
+  {% if recipient.tag_list contains 'joint' %}
+    {% assign is_hd_list = false %}
+  {% elsif recipient.tag_list contains 'hinesdigital' or recipient.tag_list contains 'hddata' %}
+    {% assign is_hd_list = true %}
+  {% endif %}
+
+  {% if base_url.size == 0 %}
+    {% if is_hd_list == false %}
+      {% assign base_url = off_url %}
+    {% elsif is_hd_list %}
+      {% assign base_url = pf_url %}
+    {% else %}
+      {% assign base_url = off_url %}
+    {% endif %}
+  {% endif %}
+
+
+  {% comment %}
+  //== Source Code Assignment
+  //
+  //## Properly assign UTM Source in order to track attribution.
+  {% endcomment %}
+
+  {% assign source_code = 'hd' %}
+  {% if broadcaster.name contains 'Hines Digital' or broadcaster.name contains 'HD' %}
+    {% assign source_code = 'hd' %}
+  {% elsif broadcaster.name contains 'Prefix: ' or broadcaster.name contains 'prefix: ' or broadcaster.name contains 'Source Code: ' or broadcaster.name contains 'source code: ' or broadcaster.name contains 'SC: ' or broadcaster.name contains 'sc: ' %}
+    {% assign source_code = broadcaster.name | split:': ' | last | remove:')' | remove:'(' | remove:' ' | downcase %}
+  {% endif %}
+
+
+
   {% comment %}
   //== Personalized Asks
   //
@@ -248,6 +298,7 @@
   {% assign mobile_number = recipient.mobile_number %}
   {% assign phone_number = recipient.phone_number %}
 
+
   {% comment %}
   //== Color Variables
   //
@@ -266,7 +317,7 @@
   {% assign yellow = '#F8FF00' %}
   {% assign gold = '#CC9900' %}
 
-  {% assign primary = blue %}
+  {% assign primary = red %}
   {% assign secondary = red %}    
 
   {% assign color_100 = 'FF' %}
@@ -285,56 +336,6 @@
     {% assign fade_amount_6 = color_50 %}
   {% endif %}
 
-  {% comment %}
-  //== Custom Client Color Variables
-  //
-  //## Automatically load brand-specific hex codes inline from memory.
-  {% endcomment %}
-  {% if theme_default == false %}
-    {% case settings.official_name %} 
-      {% when 'Elect Republicans Georgia Victory Fund' %}
-        {% assign blue = '#043BAB' %}
-        {% assign red = '#e1251b' %}
-        {% assign primary = red %}
-        {% assign secondary = red %}
-      {% when 'Elect Republicans Florida Victory Fund' %}
-        {% assign blue = '#031d41' %}
-        {% assign red = '#c6083b' %}
-        {% assign primary = blue %}
-        {% assign secondary = red %}
-      {% when 'Elect Republicans South Carolina Victory Fund' %}
-        {% assign blue = '#0a386f' %}
-        {% assign red = '#B50938' %}
-        {% assign gray = '#b3b7c3' %}
-        {% assign green = '#1b9e0c' %}
-        {% assign primary = red %}
-        {% assign secondary = red %}
-      {% comment %}
-        {% when 'Elect Republicans' %}
-          {% assign blue = '#023D7B' %}
-          {% assign red = '#D0021A' %}
-          {% assign primary = red %}
-          {% assign secondary = red %}
-        {% when 'North Carolina Republican Party' %}
-          {% assign blue = '#0A3C6B' %}
-          {% assign red = '#AF1514' %}
-          {% assign primary = blue %}
-          {% assign secondary = red %}
-        {% when 'The Missouri Republican Party' %}
-          {% assign blue = '#253553' %}
-          {% assign red = '#A51E34' %}
-          {% assign primary = blue %}
-          {% assign secondary = red %}
-        {% when 'Republican Party of Iowa' %}
-          {% assign blue = '#0D2978' %}
-          {% assign red = '#FC0D1F' %}
-          {% assign yellow = '#FFFD4D' %}
-          {% assign primary = red %}
-          {% assign secondary = red %}
-      {% endcomment %}
-    {% endcase %}
-  {% endif %}
-
 
   {% comment %}
   //== Default Fonts
@@ -347,48 +348,11 @@
   {% capture font_headline %}{{ font_body }}{% endcapture %}
   {% capture font_monospace %}Courier New, Courier, monospace{% endcapture %}
 
-  {% assign headline_font_size = '20pt' %}
+  {% assign headline_font_size = '1.4em' %}
   {% assign button_letter_spacing = '0' %}
   {% assign button_font_size = '16px' %}
   {% assign button_text_transform = 'uppercase' %}
 
-
-  {% comment %}
-  //== UTM Source Assignment
-  //
-  //## Properly assign UTM Source in order to track commission.
-  {% endcomment %}
-  {% assign is_hd_list = false %}
-
-  {% if recipient.tag_list contains 'joint' %}
-    {% assign is_hd_list = false %}
-  {% elsif recipient.tag_list contains 'hinesdigital' or recipient.tag_list contains 'hddata' %}
-    {% assign is_hd_list = true %}
-  {% endif %}
-
-  {% if base_url.size == 0 %}
-    {% if is_hd_list == false %}
-      {% assign base_url = off_url %}
-    {% elsif is_hd_list %}
-      {% assign base_url = pf_url %}
-    {% else %}
-      {% assign base_url = off_url %}
-    {% endif %}
-  {% endif %}
-
-
-  {% comment %}
-  //== Source Code Assignment
-  //
-  //## Properly assign UTM Source in order to track attribution.
-  {% endcomment %}
-
-  {% assign source_code = 'hd' %}
-  {% if broadcaster.name contains 'Hines Digital' or broadcaster.name contains 'HD' %}
-    {% assign source_code = 'hd' %}
-  {% elsif broadcaster.name contains 'Prefix: ' or broadcaster.name contains 'prefix: ' or broadcaster.name contains 'Source Code: ' or broadcaster.name contains 'source code: ' or broadcaster.name contains 'SC: ' or broadcaster.name contains 'sc: ' %}
-    {% assign source_code = broadcaster.name | split:': ' | last | remove:')' | remove:'(' | remove:' ' | downcase %}
-  {% endif %}
 
 
   {% comment %}
@@ -438,9 +402,160 @@
   {% endcomment %}
   {% capture page_variables %}sc={{ source_code }}&utm_campaign={{ mailing.slug }}&utm_source=nationbuilder&utm_medium=email&{{amounts}}{% if oc == true or personalize == true %}&email={{ email | url_encode | replace:'+','%20' }}&oc={{ oc }}&money_bomb=false&recurring=false{% else %}&money_bomb={{ money_bomb }}&recurring={{ recurring }}{% endif %}{% if personalize == true %}&firstname={{ first_name | url_encode | replace:'+','%20' }}&lastname={{ last_name | url_encode | replace:'+','%20' }}&name_or_email={{ name_or_email | url_encode | replace:'+','%20' }}&id={{ id | url_encode | replace:'+','%20' }}&address={{ address1 | url_encode | replace:'+','%20' }}&zip={{ zip | url_encode | replace:'+','%20' }}&city={{ city | url_encode | replace:'+','%20' }}&employer_name={{ employer | url_encode | replace:'+','%20' }}&occupation={{ occupation | url_encode | replace:'+','%20' }}&phone={{ phone_number | url_encode | replace:'+','%20' }}&mobile={{ mobile_number | url_encode | replace:'+','%20' }}{% endif %}{% if headline.size > 0 %}&headline={{ headline | url_encode | replace:'+','%20' }}{% endif %}{% if intro.size > 0 %}&intro={{ intro | url_encode | replace:'+','%20' }}{% endif %}{% if cta.size > 0 %}&cta={{ cta | url_encode | replace:'+','%20' }}{% endif %}{% if deadline.size > 0 %}&deadline={{ deadline | url_encode | replace:'+','%20' }}{% endif %}{%if money_pledge_callout.size > 0 %}&money_pledge_callout={{ money_pledge_callout | url_encode | replace:'+','%20' }}{% endif %}{% if recurring_callout.size > 0 %}&recurring_callout={{ recurring_callout | url_encode | replace:'+','%20' }}{% endif %}{% if survey_q1.size > 0 %}&survey_q1={{ survey_q1 | url_encode | replace:'+','%20' }}{% endif %}{% if survey_q1_y.size > 0 %}&survey_q1_y={{ survey_q1_y | url_encode | replace:'+','%20' }}{% endif %}{% if survey_q1_n.size > 0 %}&survey_q1_n={{ survey_q1_n | url_encode | replace:'+','%20' }}{% endif %}{% if survey_q1_u.size > 0 %}&survey_q1_u={{ survey_q1_u | url_encode | replace:'+','%20' }}{% endif %}{% if survey_q2.size > 0 %}&survey_q2={{ survey_q2 | url_encode | replace:'+','%20' }}{% endif %}{% if survey_q2_y.size > 0 %}&survey_q2_y={{ survey_q2_y | url_encode | replace:'+','%20' }}{% endif %}{% if survey_q2_n.size > 0 %}&survey_q2_n={{ survey_q2_n | url_encode | replace:'+','%20' }}{% endif %}{% if survey_q2_u.size > 0 %}&survey_q2_u={{ survey_q2_u | url_encode | replace:'+','%20' }}{% endif %}{% if survey_q3.size > 0 %}&survey_q3={{ survey_q3 | url_encode | replace:'+','%20' }}{% endif %}{% if survey_q3_y.size > 0 %}&survey_q3_y={{ survey_q3_y | url_encode | replace:'+','%20' }}{% endif %}{% if survey_q3_n.size > 0 %}&survey_q3_n={{ survey_q3_n | url_encode | replace:'+','%20' }}{% endif %}{% if survey_q3_u.size > 0 %}&survey_q3_u={{ survey_q3_u | url_encode | replace:'+','%20' }}{% endif %}{% if action_sa.size > 0 %}&action_sa={{ action_sa | url_encode | replace:'+','%20' }}{% endif %}{% if action_sa_y.size > 0 %}&action_sa_y={{ action_sa_y | url_encode | replace:'+','%20' }}{% endif %}{% if action_ha.size > 0 %}&action_ha={{ action_ha | url_encode | replace:'+','%20' }}{% endif %}{% if action_ha_1.size > 0 %}&action_ha_1={{ action_ha_1 | url_encode | replace:'+','%20' }}{% endif %}{% if action_ha_2.size > 0 %}&action_ha_2={{ action_ha_2 | url_encode | replace:'+','%20' }}{% endif %}{% if action_ha_3.size > 0 %}&action_ha_3={{ action_ha_3 | url_encode | replace:'+','%20' }}{% endif %}{% if action_ha_4.size > 0 %}&action_ha_4={{ action_ha_4 | url_encode | replace:'+','%20' }}{% endif %}{% endcapture %}
 
-  
+
+
+  {% comment %}
+  //== Custom Client Variables
+  //
+  //## Automatically load brand-specific variables where appropriate.
+  {% endcomment %}
+  {% if theme_default == false %}
+    {% case settings.official_name %} 
+      {% when 'Elect Republicans Georgia Victory Fund' %}
+        {% assign blue = '#043BAB' %}
+        {% assign red = '#e1251b' %}
+        {% assign primary = black %}
+        {% assign secondary = red %}
+      {% when 'Elect Republicans Florida Victory Fund' %}
+        {% assign blue = '#050B45' %}
+        {% assign red = '#cc0434' %}
+        {% assign primary = blue %}
+        {% assign secondary = red %}
+
+        {% capture font_body %}'Karla', Calibri, Geneva, sans‑serif{% endcapture %}
+        {% capture font_buttons %}'Avenir Next Condensed Bold', Avenir Next Condensed, {{ font_body }}{% endcapture %}
+        {% capture font_headline %}{{ font_body }}{% endcapture %}
+        {% capture font_monospace %}Courier New, Courier, monospace{% endcapture %}
+
+        {% assign button_letter_spacing = '0' %}
+        {% assign button_font_size = '18pt' %}
+        {% assign button_text_transform = 'uppercase' %}
+      {% when 'Elect Republicans South Carolina Victory Fund' %}
+        {% assign blue = '#0a386f' %}
+        {% assign red = '#aa342d' %}
+        {% assign gray = '#b3b7c3' %}
+        {% assign green = '#1b9e0c' %}
+        {% assign primary = red %}
+        {% assign secondary = red %}
+      {% when 'Elect Republicans' %}
+        {% assign blue = '#023D7B' %}
+        {% assign red = '#D0021A' %}
+        {% assign primary = red %}
+        {% assign secondary = blue %}
+
+        {% assign headline_font_size = '1.4em' %}
+        {% assign button_letter_spacing = '0' %}
+        {% assign button_font_size = '18px' %}
+        {% assign button_text_transform = 'uppercase' %}
+
+        {% capture explainer %}At Elect Republicans HQ, we work every day to organize Republican Patriots (like you{% if recipient.first_name.size > 0 %}, {{ recipient.first_name_or_friend }}{% endif %}!) and connect them to the battleground campaigns that need their help. If you’re with us, <a href="{{ base_url }}?utm_content=text-hard_ask&{{ page_variables }}&amount={{ amount_1 }}" style="color: inherit;">contribute {{ask}} now</a></strong>. If you’re a Democrat, please <a href="{{ settings.site.unsubscribe_url }}" style="color: inherit !important; display: inline-block;">unsubscribe here</a>.{% endcapture %}
+      {% when 'Republican Party of Iowa' %}
+        {% assign blue = '#0D2978' %}
+        {% assign red = '#FC0D1F' %}
+        {% assign primary = blue %}
+        {% assign secondary = red %}
+
+        {% capture font_body %}'Montserrat', DejaVu Sans, Verdana, sans‑serif{% endcapture %}
+        {% capture font_buttons %}{{ font_body }}{% endcapture %}
+        {% capture font_headline %}{{ font_body }}{% endcapture %}
+        {% capture font_monospace %}Courier New, Courier, monospace{% endcapture %}
+
+        {% assign headline_font_size = '1.4em' %}
+        {% assign button_letter_spacing = '0' %}
+        {% assign button_font_size = '15pt' %}
+        {% assign button_text_transform = 'none' %}
+
+        {% capture explainer %}The Battleground State of Iowa is fighting to win the #1 Battleground Race in the nation, and we’re counting on your support! Our Republican Majority depends on it! But if you prefer the Democrats, <a style="color: inherit !important; display: inline-block;" href="{{ settings.site.unsubscribe_url }}">click here to unsubscribe</a>.{% endcapture %}
+      {% when 'The Missouri Republican Party' %}
+        {% assign blue = '#253553' %}
+        {% assign red = '#A51E34' %}
+        {% assign primary = blue %}
+        {% assign secondary = red %}
+        {% assign link = red %}
+
+        {% capture font_body %}'Open Sans', Segoe UI, Tahoma, sans‑serif{% endcapture %}
+        {% capture font_buttons %}'Roboto', -apple-system, BlinkMacSystemFont, Tahoma, sans‑serif{% endcapture %}
+        {% capture font_headline %}{{ font_buttons }}{% endcapture %}
+        {% capture font_monospace %}Courier New, Courier, monospace{% endcapture %}
+
+        {% assign headline_font_size = '1.4em' %}
+        {% assign button_letter_spacing = '0' %}
+        {% assign button_font_size = '16pt' %}
+        {% assign button_text_transform = 'uppercase' %}
+
+        {% capture explainer %}The Republican Party of Missouri is 100% focused on winning back our majority in the US Senate and House of Representatives, and we need your support! Without you, there’s no hope of restoring Trump’s Majority! But if you must, you can <a style="color: inherit !important; display: inline-block;" href="{{ settings.site.unsubscribe_url }}">click here to unsubscribe</a>.{% endcapture %}
+      {% when 'North Carolina Republican Party' %}
+        {% assign blue = '#0A3C6B' %}
+        {% assign red = '#AF1514' %}
+        {% assign link = red %}
+        {% assign primary = red %}
+        {% assign secondary = blue %}
+
+        {% capture font_body %}'Roboto', -apple-system, BlinkMacSystemFont, Tahoma, sans‑serif{% endcapture %}
+        {% capture font_buttons %}Oswald, 'Avenir Next Condensed Bold', Avenir Next Condensed, Arial Narrow, MS UI Gothic, sans-serif{% endcapture %}
+        {% capture font_headline %}{{ font_buttons }}{% endcapture %}
+
+        {% assign headline_font_size = '1.4em' %}
+        {% assign button_letter_spacing = '1px' %}
+        {% assign button_font_size = '18pt' %}
+        {% assign button_text_transform = 'uppercase' %}
+
+        {% assign logo_height = '80px' %}
+
+        {% capture explainer %}The Republican Party of North Carolina is 100% focused on winning back our majority in the US Senate and House of Representatives, and we need your support! If we don’t win in North Carolina, all hope is lost! But if you must abandon us, <a style="color: inherit !important; display: inline-block;" href="{{ settings.site.unsubscribe_url }}">click here to unsubscribe</a>.{% endcapture %}
+      {% when 'Vermont Republican Party' %}
+        {% assign blue = '#1A1F53' %}
+        {% assign red = '#C22636' %}
+        {% assign primary = red %}
+        {% assign secondary = blue %}
+        {% assign link = red %}
+
+        {% capture font_body %}proxima-nova, 'Roboto', -apple-system, BlinkMacSystemFont, Tahoma, sans‑serif{% endcapture %}
+        {% capture font_buttons %}futura-pt-bold, 'Trebuchet MS', Century Gothic, Corbel, sans‑serif{% endcapture %}
+        {% capture font_headline %}{{ font_buttons }}{% endcapture %}
+
+        {% assign headline_font_size = '1.4em' %}
+        {% assign button_letter_spacing = '1px' %}
+        {% assign button_font_size = '14pt' %}
+        {% assign button_text_transform = 'uppercase' %}
+
+        {% assign logo_height = '80px' %}
+        {% capture explainer %}With the Democrat Senator retiring, <strong>we have a real chance of winning</strong> in Battleground Vermont -- but we can’t do it without you{% if recipient.first_name.size > 0 %}, {{name}}{% endif %}! You’re one of the <strong>TOP REPUBLICANS</strong> in {{location}}, and we’re counting on your support! But if you need to, you can <a style="color: inherit !important; display: inline-block;" href="{{ settings.site.unsubscribe_url }}">click here to unsubscribe</a>.{% endcapture %}
+    {% endcase %}
+  {% endif %}
+ 
   {% comment %}##### ##### ##### ##### ##### {% endcomment %}
 </div>
+
+<p style="display: none;">&nbsp;</p>
+
+{% unless theme_default == true %}
+<div style="margin-bottom: 2em;">
+  <!-- Begin Email Header Logo -->
+  <div style="text-align: center; margin: 1em auto;">
+    {% if show_logo == true %}
+      <a href="{{ base_url }}?utm_content=logo&{{ page_variables }}" target="_blank">
+        <img style="max-width: 80% !important; max-height: {{ logo_height | default: '120px' }} !important;" src="{{ theme['logo.png'] }}" alt="{{ settings.official_name }}" />
+      </a>
+    {% endif %}
+  </div>
+  <!-- /End Email Header Logo -->
+
+  <p style="display: none;">&nbsp;</p>
+
+  <!-- Text Explainer -->
+  <div style="max-width: 90%; margin-left: auto; margin-right: auto; margin-bottom: 1em;">
+    {% if show_explainer == true %}
+      <p style="text-align: center; color: {{muted}}; font-size: 16px;">
+        <em>
+          {{ explainer }}
+        </em>
+      </p>
+    {% endif %}
+  </div>
+  <!-- End Text Explainer -->
+</div>
+{% endunless %}
 
 <p style="display: none;">&nbsp;</p>
 
@@ -471,6 +586,6 @@
 <p>Thank you.</p>
 
 <p>
-  <strong>Republican Action Alerts</strong><br>
-  <em>Sent via {{ settings.official_name }}</em>
+  <!-- <strong>Republican Action Alerts</strong><br> -->
+  <em>-- {{ settings.official_name }}</em>
 </p>
