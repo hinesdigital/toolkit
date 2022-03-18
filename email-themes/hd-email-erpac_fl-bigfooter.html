@@ -1,0 +1,284 @@
+{% capture base_url %}https://secure.winred.com/electrepublicans/257944439083345112{% endcapture %}
+
+{% comment %}Default FEC Disclaimer{% endcomment %}
+{% if broadcaster.name contains 'Authorized By:' %}
+  {% capture authorized_by %}Authorized by {{ broadcaster.name | split:'Authorized By: ' | last }}. {% endcapture %}
+{% else %}
+  {% capture authorized_by %}Not authorized by any candidate or candidate’s committee.{% endcapture %}
+{% endif %}
+{% capture box_disclaimer %}
+  Paid for by {{ settings.official_name }} (<a href="{{ settings.site.full_url }}" style="color:#000000;">{{ settings.site.full_url | remove:'https://' | remove:'http://' | remove:'www.' | remove:'/' }}</a>). <span style="display: inline-block;">{{ authorized_by }}</span>
+{% endcapture %}
+
+{% comment %}Text Disclaimer{% endcomment %}  
+{% capture text_disclaimer %}
+  <p><strong>Text “WIN” to 44234 to receive mobile alerts and help Elect Republicans! Reply HELP for help, STOP to end. Message frequency may vary. Msg&data rates may apply. Terms and Conditions at <a href="https://44234-info.com" target="_blank" style="color:#000000; display: inline-block;">44234-info.com</a>.</strong></p>
+{% endcapture %} 
+
+{% comment %}Default Colors{% endcomment %}
+{% assign link = '#0000EE' %}
+{% assign black = '#000000' %}
+{% assign blue = '#023D7B' %}
+{% assign green = '#00CC00' %}
+{% assign gray = '#A4A8B7' %}
+{% assign light = '#E9E9E9' %}
+{% assign muted = '#757777' %}
+{% assign red = '#D0021A' %}
+{% assign tan = '#FEEF8B' %}
+{% assign teal = '#2DFFFE' %}
+{% assign yellow = '#F8FF00' %}
+{% assign gold = '#CC9900' %}
+
+{% comment %}Brand Font Values{% endcomment %}
+{% capture font_face %}@import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400;0,700;1,400;1,700&family=Pathway+Gothic+One&display=swap');{% endcapture %}
+{% capture font_body %}'Karla', Calibri, Geneva, sans‑serif{% endcapture %}
+{% capture font_buttons %}'Avenir Next Condensed Bold', Avenir Next Condensed, {{ font_body }}{% endcapture %}
+{% capture font_headline %}{{ font_body }}{% endcapture %}
+{% capture font_monospace %}Courier New, Courier, monospace{% endcapture %}
+
+{% comment %}Brand Button Values{% endcomment %}
+{% assign button_letter_spacing = '0' %}
+{% assign button_font_size = '18pt' %}
+{% assign button_text_transform = 'uppercase' %}
+
+{% comment %}Brand Colors{% endcomment %}
+{% assign blue = '#050B45' %}
+{% assign red = '#cc0434' %}
+{% assign primary = blue %}
+{% assign secondary = red %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="initial-scale=1.0">
+  <!-- So that mobile webkit will display zoomed in -->
+  <meta name="format-detection" content="telephone=no">
+  <!-- disable auto telephone linking in iOS -->
+  <title>{{ settings.official_name }}</title>
+  <style type="text/css">
+    {{ font_face }}
+    
+    /* Resets:see reset.css for details */
+    body{background-color:#ffffff;-webkit-text-size-adjust:none; -ms-text-size-adjust:none;}
+    body{color:#000000;font-family:{{ font_body }} !important;margin:0;padding:0;}
+    table{border-spacing:0;border-collapse:collapse;border-spacing:0;}
+    table td{border-collapse:collapse;}
+    p{margin-bottom:1em;}
+    img{max-width:100%;}
+    a{color:#0000EE;}
+    .repermission-link a { color:inherit !important; display: inline-block; text-decoration: underline; }
+    .nb-tmce-btn {font-family:{{ font_body }} !important;max-width:95%;}
+    /* Constrain email width for small screens */
+    @media screen and (max-width:830px) {
+    table[class="container"] { width:100%!important; }
+    }
+    /* Give content more room on mobile */
+    @media screen and (max-width:480px) {
+    table[class="container"] { width:100%!important; }
+    div[class="body-content"]img { width:100%; }
+    td[class="body-content"] { font-size: 18px !important; }
+    td[class="footer-content"] { font-size: 18px !important; }
+    }
+    /* Styles for forcing columns to rows */
+    @media only screen and (max-width:830px) {
+    /* force container columns to (horizontal) blocks */
+    table[class="container"] { width:100%!important; }
+    }
+
+    {% assign max_width = '700px' %}
+  </style>
+</head>
+<body style="margin:0; padding:0;" bgcolor="#ffffff" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" bottommargin="0">
+  {{ preview_text }}
+  <!-- 100% wrapper -->
+  <table border="0" width="100%" height="100%" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
+    <tr>
+      <td align="center" valign="top" bgcolor="#ffffff" style="background-color:#ffffff;">
+        <!-- ### 100% CONTAINER ### -->
+        <table width="100%" cellpadding="0" cellspacing="0" bgcolor="#ffffff" style="background-color:#ffffff; max-width: 100%;" class="container">
+          
+          <!-- Intro/Preferences Text -->
+          {% unless recipient.tag_list contains 'opener' or recipient.tag_list contains ':active' %}
+          <tr style="display: none;">
+            <td style="font-family:{{ font_body }} !important;font-size:14px; text-align: center; color: #757777; padding: 15px; padding-bottom: 0; background-color: transparent;" class="body-content">
+              <center>
+                <div style="max-width: {{ max_width }}; margin-left: auto; margin-right: auto;">
+                  Not interested{% comment %}{% if recipient.first_name.size > 0 %}, {{ recipient.first_name_or_friend }}{% endif %}{% endcomment %}? <a href="{{ settings.site.unsubscribe_url }}" style="color: inherit !important; display: inline-block;">Unsubscribe here</a>.
+                </div>
+              </center>
+            </td>
+          </tr>
+          {% endunless %}
+          <!-- End Intro/Preferences Text -->
+          <!-- Donor Recognition Box -->
+          {% if recipient.is_donor? %}
+            {% assign year = 'now' | date: '%Y' %}
+            {% assign day_of_year = 'now' | date: '%j' %}
+            {% assign year_of_last_donation = recipient.last_donation.succeeded_at | date: '%Y' %}
+            {% assign day_of_last_donation = recipient.last_donation.succeeded_at | date: '%j' %}
+            {% assign days_since_last_donation = day_of_year | minus:day_of_last_donation %}
+            
+            {% if days_since_last_donation <= 7 and year == year_of_last_donation %}
+              <tr>
+                <td style="font-family:{{ font_body }} !important;font-size:21px; padding-left:15px;padding-right:15px;padding-top:30px;padding-bottom:0px;text-align:left;" class="body-content">
+                  <center>
+                    <div style="max-width: {{ max_width }}; margin-left: auto; margin-right: auto;">
+                      <div style="background:#EDEDED; border:0px; padding: 1em; font-size: 12pt; font-family: Courier, monospace; text-align: center;">
+                        <p style="font-size:16pt;"><strong>THANK YOU FOR YOUR DONATION, {{ recipient.first_name_or_friend | upcase }}</strong></p>
+                        <p>
+                          We want you to know that we noticed your generous contribution on {{recipient.last_donation.succeeded_at | date: '%B %d, %Y' }}. Thank you so much for your continued support.
+                        </p>
+                      </div>
+                    </div>
+                  </center>
+                </td>
+              </tr>
+            {% endif %}
+          {% endif %}
+          <!-- End Donor Recognition Box -->
+          <!-- Email Body -->
+          <tr>
+            <td style="font-family:{{ font_body }} !important;font-size:21px; padding-left:15px;padding-right:15px;padding-top:15px;padding-bottom:15px;text-align:left;" class="body-content">
+              <center>
+                <div style="max-width: {{ max_width }}; margin-left: auto; margin-right: auto; text-align: left !important;">
+                  {{ body }}
+                  <br><br>
+                </div>
+              </center>
+            </td>
+          </tr>
+          <!-- End Email Body -->
+          
+          <!-- Unsubscribe Callout -->
+          <tr>
+            <td style="font-family: {{ font_body }} !important; padding-top: 100px; padding-bottom: 0px; padding-left:15px;padding-right:15px;font-size: 14px; text-align:center;">
+              <center>
+                <div style="max-width: {{ max_width }}; margin-left: auto; margin-right: auto;">
+                  <p style="color:#000000;line-height:1.4;font-family: {{ font_body }} !important;text-align:center;">
+                    This email was sent to
+                    <a style="color:#000000;" href="mailto:{{ recipient.email }}">{{ recipient.email }}</a>.
+                    <br>
+                    To unsubscribe from future emails, <a style="color:#000000;display: inline-block;" href="{{ settings.site.unsubscribe_url }}">click here</a>.
+                  </p>
+                </div>
+              </center>
+            </td>
+          </tr>
+          <!-- End Unsubscribe Callout -->
+          <!-- FEC Disclaimer -->
+          <tr>
+            <td style="font-family: {{ font_body }} !important; padding-top: 0px; padding-bottom: 15px; padding-left:15px;padding-right:15px;font-size: 21px; text-align:center;" class="footer-content">
+
+              <hr style="border-color: {{ light }};border-width: 1px; border-style: solid;">
+
+              <center>
+                <div style="max-width: {{ max_width }}; margin-left: auto; margin-right: auto;">
+
+                  <div style="margin:30px 0; text-align: center;">
+                    <a href="{{ base_url }}?utm_content=logo&{{ page_variables }}" target="_blank">
+                      <img style="max-width: 80% !important; border: 5px solid {{red}}; padding: 5px;" src="{{ theme['marco_rubio.jpg'] }}" alt="{{ settings.official_name }}" />
+                    </a>
+                  </div>
+
+                  <p><a href="{{ base_url }}?utm_content=text-bold&{{ page_variables }}" style="color: inherit; font-weight: bold; text-decoration: none;">Senator Marco Rubio is a strong, America First Republican leader running for re-election in the Battleground State of Florida.</a></p>
+
+                  <p>He has President Trump’s Complete and Total Endorsement -- which is why the Democrats are targeting him for defeat!</p>
+
+                  <!-- Begin Button Single Block -->
+                  <div style="display:block;min-width:300px;vertical-align:top;text-align: center !important;margin-left: auto; margin-right: auto;">
+                    <table align="center" border="0" cellpadding="0" cellspacing="0" style="margin:0 auto;  border-collapse: separate; border-spacing: 0; text-align: center !important;">
+                      <tbody>
+                        <tr>
+                          <td align="center">
+                            <table border="0" cellpadding="0" cellspacing="6" style="margin:0 auto; min-width: 300px; border-collapse: separate; border-spacing: 0;">
+                              <tbody>
+                                <tr>
+                                  <td align="center"style="-moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; font-family: {{ font_buttons }} !important; text-transform: {{ button_text_transform }}; color: #ffffff; font-weight: bold"><a href="{{ base_url }}?utm_content=btn-amt-other&{{ page_variables }}" style="font-family: {{ font_buttons }} !important; text-transform: {{ button_text_transform }}; letter-spacing: {{ button_letter_spacing }}; padding: 11px 1em; mso-padding-alt: 6px 6px; display: block;text-decoration: none;border:0; text-align: center; font-weight: bold;font-size: {{ button_font_size }}; color: #ffffff; margin: 10px 0px; mso-line-height-rule: exactly; line-height: 36px; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; background-color: {{ primary }}">Stand with Trump &amp; Rubio</a></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- End Button Single Block -->
+
+                  <p><strong><a href="{{ base_url }}?utm_content=text-highlighted&{{ page_variables }}" style="color: inherit; background: {{ yellow }}; text-decoration: none;">The fact is that Senator Rubio’s campaign in under threat.</a></strong></p>
+
+                  <p>His opponent, a close ally of Nancy Pelosi who helped lead the sham impeachment of President Trump, is raising and spending record amounts to turn Florida “blue!”</p>
+
+                  <p>Fox News said this race could be the most expensive <em>ever,</em> and the Democrats are <em>already</em> <strong>OUT-RAISING</strong> and <strong>OUT-SPENDING</strong> us.</p>
+
+                  <p>We need each and every Republican Patriot who receives this to join us in the fight to take back the Senate -- <em>especially you{% if recipient.first_name.size > 0 %}, {{ recipient.first_name_or_friend}}{% endif %}!</em></p>
+
+                  <p><strong><a href="{{ base_url }}?utm_content=text-hard_ask&{{ page_variables }}" style="color: {{red}};">Contribute ANY AMOUNT IMMEDIATELY to Stand with Trump-Endorsed Senator Marco Rubio and help Keep Florida Red in 2022.</a></strong></p>
+
+                  <!-- Begin Button Single Block -->
+                  <div style="display:block;min-width:300px;vertical-align:top;text-align: center !important;margin-left: auto; margin-right: auto;">
+                    <table align="center" border="0" cellpadding="0" cellspacing="0" style="margin:0 auto;  border-collapse: separate; border-spacing: 0; text-align: center !important;">
+                      <tbody>
+                        <tr>
+                          <td align="center">
+                            <table border="0" cellpadding="0" cellspacing="6" style="margin:0 auto; min-width: 300px; border-collapse: separate; border-spacing: 0;">
+                              <tbody>
+                                <tr>
+                                  <td align="center"style="-moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; font-family: {{ font_buttons }} !important; text-transform: {{ button_text_transform }}; color: #ffffff; font-weight: bold"><a href="{{ base_url }}?utm_content=btn-amt-other&{{ page_variables }}" style="font-family: {{ font_buttons }} !important; text-transform: {{ button_text_transform }}; letter-spacing: {{ button_letter_spacing }}; padding: 11px 1em; mso-padding-alt: 6px 6px; display: block;text-decoration: none;border:0; text-align: center; font-weight: bold;font-size: {{ button_font_size }}; color: #ffffff; margin: 10px 0px; mso-line-height-rule: exactly; line-height: 36px; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; background-color: {{ primary }}">Contribute Now</a></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- End Button Single Block -->
+
+                  {% if text_disclaimer.size > 0 %}
+                    {{ text_disclaimer }}
+                  {% endif %}
+
+                  <p>
+                    To contribute by mail, please send a check made payable to “{{ settings.official_name }}” to: 
+                    <address>
+                      {{ settings.official_name }}<br>
+                      ℅ Finance Team<br>
+                      {% for line in settings.address.multi_line %}{{ line }}{% unless forloop.last %}<br/>{% endunless %}{% endfor %}
+                    </address>
+                  </p>
+                  
+                  <!-- <p>{{ settings.official_name }}, {{ settings.address.one_line }}</p> -->
+                  <p>Contributions to {{settings.official_name}} are not deductible for federal income tax purposes.</p>
+
+                  <center>
+                  <div style="border:1px solid #000000 !important;padding:10px;display:inline-block; margin-top: 10px; margin-bottom: 10px;">
+                    <p style="color:#000000;font-size:16px; font-size:12pt !important;line-height:1.4;text-align:center !important;display:inline-block;font-family:{{ font_body }} !important;padding:0 !important;margin: 0 !important;">
+                      {{ box_disclaimer }}
+                    </p>
+                  </div>
+                  </center>
+                </div>
+              </center>
+            </td>
+          </tr>
+          <!-- End FEC Disclaimer -->
+          
+        </table>
+      </td>
+    </tr>
+  </table>
+  <!--/100% wrapper-->
+
+  <img 
+    src="https://www.facebook.com/tr?id=272961047759644
+      &ev=ViewContent
+      &cd[utm_campaign]={{mailing.slug}}
+      &cd[utm_medium]=email
+      &cd[utm_source]=nationbuilder
+      &cd[broadcaster_domain]={{broadcaster.email | split:'@' | last }}" 
+    height="1" width="1" style="display:none"
+  />
+</body>
+</html>
