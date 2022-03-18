@@ -2,11 +2,16 @@
   {% comment %}Are we using the default GOP email theme?{% endcomment %}
   {% assign theme_default = true %}  
 
-  {% comment %}What is the base url for links?{% endcomment %}
+  {% comment %}Base url for all links (overrides the below links)?{% endcomment %}
   {% capture base_url %}{% endcapture %}
 
+  {% comment %}Base url for housefile recipients already opted into the SMS Shortcode?{% endcomment %}
   {% capture off_url %}{% endcapture %}
 
+  {% comment %}Base url for housefile recipients NOT opted into the SMS Shortcode?{% endcomment %}
+  {% capture petition_url %}{% endcapture %}
+
+  {% comment %}Base url for HD revshare recipients?{% endcomment %}
   {% capture pf_url %}{% endcapture %}
 
   {% comment %}Is this a merch email?{% endcomment %}
@@ -97,6 +102,52 @@
           {% capture pf_url %}https://secure.winred.com/vermontgop/006253513861965527{% endcapture %}
       {% endcase %}
     {% endif %}
+  {% endif %}
+
+
+  {% comment %}
+  //== Dynamic Page Assignment
+  //
+  //## Properly assign page URL in order to collect appropriate commission.
+  {% endcomment %}
+  {% assign is_hd_list = false %}
+
+  {% if recipient.tag_list contains 'joint:' %}
+    {% assign is_hd_list = false %}
+  {% elsif recipient.tag_list contains 'hinesdigital' or recipient.tag_list contains 'hddata' %}
+    {% assign is_hd_list = true %}
+  {% endif %}
+
+  {% assign is_shortcode_list = false %}
+
+  {% if recipient.tag_list contains 'tatango' or recipient.tag_list contains 'shortcode' %}
+    {% assign is_shortcode_list = true %}
+  {% endif %}
+
+  {% if base_url.size == 0 %}
+    {% if is_hd_list == false and is_shortcode_list == false and petition_url.size > 0 %}
+      {% assign base_url = petition_url %}
+    {% elsif is_hd_list == false %}
+      {% assign base_url = off_url %}
+    {% elsif is_hd_list %}
+      {% assign base_url = pf_url %}
+    {% else %}
+      {% assign base_url = off_url %}
+    {% endif %}
+  {% endif %}
+
+
+  {% comment %}
+  //== Source Code Assignment
+  //
+  //## Properly assign UTM Source in order to track attribution.
+  {% endcomment %}
+
+  {% assign source_code = 'hd' %}
+  {% if broadcaster.name contains 'Hines Digital' or broadcaster.name contains 'HD' %}
+    {% assign source_code = 'hd' %}
+  {% elsif broadcaster.name contains 'Prefix: ' or broadcaster.name contains 'prefix: ' or broadcaster.name contains 'Source Code: ' or broadcaster.name contains 'source code: ' or broadcaster.name contains 'SC: ' or broadcaster.name contains 'sc: ' %}
+    {% assign source_code = broadcaster.name | split:': ' | last | remove:')' | remove:'(' | remove:' ' | downcase %}
   {% endif %}
 
 
@@ -206,45 +257,6 @@
   {% comment %}We list amounts from Greatest to Least in the array.{% endcomment %}
 
   {% capture amounts %}amt1={{ amount_1 }}&amt2={{ amount_2 }}&amt3={{ amount_3 }}&amt4={{ amount_4 }}&amt5={{ amount_5 }}&amt6={{ amount_6 }}&amt7={{ amount_7 }}{% endcapture %}
-
-
-
-  {% comment %}
-  //== Dynamic Page Assignment
-  //
-  //## Properly assign page URL in order to collect appropriate commission.
-  {% endcomment %}
-  {% assign is_hd_list = false %}
-
-  {% if recipient.tag_list contains 'joint' %}
-    {% assign is_hd_list = false %}
-  {% elsif recipient.tag_list contains 'hinesdigital' or recipient.tag_list contains 'hddata' %}
-    {% assign is_hd_list = true %}
-  {% endif %}
-
-  {% if base_url.size == 0 %}
-    {% if is_hd_list == false %}
-      {% assign base_url = off_url %}
-    {% elsif is_hd_list %}
-      {% assign base_url = pf_url %}
-    {% else %}
-      {% assign base_url = off_url %}
-    {% endif %}
-  {% endif %}
-
-
-  {% comment %}
-  //== Source Code Assignment
-  //
-  //## Properly assign UTM Source in order to track attribution.
-  {% endcomment %}
-
-  {% assign source_code = 'hd' %}
-  {% if broadcaster.name contains 'Hines Digital' or broadcaster.name contains 'HD' %}
-    {% assign source_code = 'hd' %}
-  {% elsif broadcaster.name contains 'Prefix: ' or broadcaster.name contains 'prefix: ' or broadcaster.name contains 'Source Code: ' or broadcaster.name contains 'source code: ' or broadcaster.name contains 'SC: ' or broadcaster.name contains 'sc: ' %}
-    {% assign source_code = broadcaster.name | split:': ' | last | remove:')' | remove:'(' | remove:' ' | downcase %}
-  {% endif %}
 
 
 
