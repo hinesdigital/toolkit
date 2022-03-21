@@ -264,11 +264,11 @@
   {% assign ask = amount_1 | number_with_commas | prepend:'$' %}
 
   {% comment %}A dynamically generated fundraising goal.{% endcomment %}
-  {% assign goal = settings.donations_amount_in_cents | divided_by:100 | divided_by:settings.donors_count | times:settings.supporters_count | times:0.001 | round | number_with_commas | prepend:'$' %}
+  {% assign goal = settings.donations_amount_in_cents | divided_by:100 | divided_by:settings.donors_count | times:settings.supporters_count | times:0.0001 | round | number_with_commas | prepend:'$' %}
 
   {% assign short = goal %}
 
-  {% assign donors = settings.supporters_count | times:0.02 | round | number_with_commas %}
+  {% assign donors = settings.supporters_count | times:0.001 | round | number_with_commas %}
 
   {% comment %}///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////{% endcomment %}
 
