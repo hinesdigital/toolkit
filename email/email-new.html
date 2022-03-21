@@ -344,6 +344,33 @@
 
 
   {% comment %}
+  //== Custom Client Color Variables
+  //
+  //## Automatically load brand-specific variables where appropriate.
+  {% endcomment %}
+
+  {% case settings.official_name %} 
+    {% when 'Elect Republicans Georgia Victory Fund' %}
+      {% assign blue = '#043BAB' %}
+      {% assign red = '#e1251b' %}
+      {% assign primary = black %}
+      {% assign secondary = red %}
+    {% when 'Elect Republicans Florida Victory Fund' %}
+      {% assign blue = '#050B45' %}
+      {% assign red = '#cc0434' %}
+      {% assign primary = blue %}
+      {% assign secondary = red %}
+    {% when 'Elect Republicans South Carolina Victory Fund' %}
+      {% assign blue = '#0a386f' %}
+      {% assign red = '#aa342d' %}
+      {% assign gray = '#b3b7c3' %}
+      {% assign green = '#1b9e0c' %}
+      {% assign primary = red %}
+      {% assign secondary = red %}
+  {% endcase %}
+
+
+  {% comment %}
   //== Default Fonts
   //
   //## Customize fonts per client to create a more unique voice/feel.
